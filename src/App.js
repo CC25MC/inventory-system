@@ -2,16 +2,16 @@ import React from 'react'
 import { AppRouter } from './routers/AppRouter';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
-import { Link as ReactLink } from "react-router-dom";
+// import { Link as ReactLink } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from 'react-query';
 import Notify from './notify';
 const queryClient = new QueryClient();
 
-const LinkBehavior = React.forwardRef((props, ref) => {
-  const { href, ...other } = props;
-  // Map href (MUI) -> to (react-router)
-  return <ReactLink data-testid="custom-link" ref={ref} to={href} {...other} />;
-});
+// const LinkBehavior = React.forwardRef((props, ref) => {
+//   const { href, ...other } = props;
+//   // Map href (MUI) -> to (react-router)
+//   return <ReactLink data-testid="custom-link" ref={ref} to={href} {...other} />;
+// });
 
 const theme = createTheme({
   palette: {
@@ -42,18 +42,18 @@ const theme = createTheme({
       '"Segoe UI Symbol"',
     ].join(','),
   },
-  components: {
-    MuiLink: {
-      defaultProps: {
-        component: LinkBehavior,
-      },
-    },
-    MuiButtonBase: {
-      defaultProps: {
-        LinkComponent: LinkBehavior,
-      },
-    },
-  },
+  // components: {
+  //   MuiLink: {
+  //     defaultProps: {
+  //       component: LinkBehavior,
+  //     },
+  //   },
+  //   MuiButtonBase: {
+  //     defaultProps: {
+  //       LinkComponent: LinkBehavior,
+  //     },
+  //   },
+  // },
   breakpoints: {
     values: {
       mobile: 0,

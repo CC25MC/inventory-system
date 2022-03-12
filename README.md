@@ -1,3 +1,29 @@
+Instala dependencias usando 
+
+        npm install
+
+        yarn install
+
+
+Luego de instalar las dependencias, buscar en la carpeta **node_modules** el archivo
+
+
+        electron-updater/out/AppUpdater.js
+
+
+En ella cambia la siguiente linea de codigo 
+
+
+        const promises_1 = require("fs/promises");
+
+
+Cambiala por la siguiente
+
+
+        const promises_1 = require("fs").promises;
+
+
+
 This repo contains the **bare minimum code** to have an auto-updating Electron app using [`electron-updater`](https://github.com/electron-userland/electron-builder/tree/master/packages/electron-updater) with releases stored on GitHub.
 
 If you can't use GitHub, you can use other providers:
