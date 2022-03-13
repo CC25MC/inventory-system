@@ -1,20 +1,17 @@
-import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
-import { persistState, getPersistedState } from "../../utils";
-import { PERSISTOR_KEYS } from "../../variables";
+import { atom, useAtom } from 'jotai'
+import { useEffect } from 'react'
+import { persistState, getPersistedState } from '../../utils'
 
-const locationAtom = atom(getPersistedState(PERSISTOR_KEYS.location) ?? "/");
-
+const locationAtom = atom(getPersistedState('location') ?? '/')
 const useLocation = () => {
-    const [path, setPath] = useAtom(locationAtom);
+  const [path, setPath] = useAtom(locationAtom)
 
-    useEffect(() => persistState(PERSISTOR_KEYS.location, path), [path]);
+  useEffect(() => persistState('location', path), [path])
 
-    return {
-        path, setPath
-    };
-};
+  return {
+    path,
+    setPath
+  }
+}
 
-export {
-    useLocation
-};
+export { useLocation }

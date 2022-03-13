@@ -1,47 +1,43 @@
 import React from 'react'
-import { AppRouter } from './routers/AppRouter';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { SnackbarProvider } from 'notistack';
+import { AppRouter } from './routers/AppRouter'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { SnackbarProvider } from 'notistack'
 // import { Link as ReactLink } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from 'react-query';
-import Notify from './notify';
-const queryClient = new QueryClient();
+import { QueryClientProvider, QueryClient } from 'react-query'
+import Notify from './notify'
+import { Sidebar } from './components'
 
-// const LinkBehavior = React.forwardRef((props, ref) => {
-//   const { href, ...other } = props;
-//   // Map href (MUI) -> to (react-router)
-//   return <ReactLink data-testid="custom-link" ref={ref} to={href} {...other} />;
-// });
+const queryClient = new QueryClient()
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
+      light: '#131B4F',
+      main: '#131B4F',
       dark: '#002884',
-      contrastText: '#fff',
+      contrastText: '#fff'
     },
     secondary: {
       light: '#ff7961',
       main: '#f44336',
       dark: '#ba000d',
-      contrastText: '#000',
-    },
+      contrastText: '#000'
+    }
   },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-  },
+  // typography: {
+  //   fontFamily: [
+  //     '-apple-system',
+  //     'BlinkMacSystemFont',
+  //     '"Segoe UI"',
+  //     'Roboto',
+  //     '"Helvetica Neue"',
+  //     'Arial',
+  //     'sans-serif',
+  //     '"Apple Color Emoji"',
+  //     '"Segoe UI Emoji"',
+  //     '"Segoe UI Symbol"'
+  //   ].join(',')
+  // },
   // components: {
   //   MuiLink: {
   //     defaultProps: {
@@ -59,19 +55,20 @@ const theme = createTheme({
       mobile: 0,
       tablet: 640,
       laptop: 1024,
-      desktop: 1200,
-    },
-  },
-});
+      desktop: 1200
+    }
+  }
+})
 
 const App = () => {
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
-          <AppRouter />
-          <Notify />
+          <Sidebar>
+            <AppRouter />
+            <Notify />
+          </Sidebar>
         </SnackbarProvider>
       </ThemeProvider>
     </QueryClientProvider>
