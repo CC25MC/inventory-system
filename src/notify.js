@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Box from '@mui/material/Box';
 // import { AppRouter } from 'routers/AppRouter';
 
-const electron = window.require('electron');
+// const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
 const Notify = () => {

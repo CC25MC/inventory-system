@@ -1,37 +1,11 @@
 import React, { useState } from 'react'
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  MenuItem,
-  TextField,
-  Divider
-} from '@mui/material'
-import { AppBar } from '../../components'
-import { SearchOutlined } from '@mui/icons-material'
-
-const currencies = [
-  {
-    value: 'USD',
-    label: ''
-  },
-  {
-    value: 'EUR',
-    label: '€'
-  },
-  {
-    value: 'BTC',
-    label: '฿'
-  },
-  {
-    value: 'JPY',
-    label: '¥'
-  }
-]
+import { Box, Divider } from '@mui/material'
+import { AppBar, Search, EnhancedTable } from '../../components'
+import { useClients } from '../../Hooks'
 
 const ClientView = ({}) => {
+  const { data } = useClients()
+  console.log(data)
   return (
     <Box
       sx={{
@@ -43,43 +17,9 @@ const ClientView = ({}) => {
       }}
     >
       <AppBar />
-
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100%',
-          padding: 3
-        }}
-      >
-        <FormControl>
-          <InputLabel htmlFor="search">Buscar</InputLabel>
-          <OutlinedInput
-            id="search"
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchOutlined />
-              </InputAdornment>
-            }
-            label="Buscar"
-          />
-        </FormControl>
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Filtros"
-          sx={{
-            marginLeft: 'auto',
-            width: '150px'
-          }}
-        >
-          {currencies.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
+      <Search />
       <Divider />
+      <EnhancedTable />
     </Box>
   )
 }

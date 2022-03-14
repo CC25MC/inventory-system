@@ -23,6 +23,17 @@ Cambiala por la siguiente
         const promises_1 = require("fs").promises;
 
 
+Ya hecho eso, ahora podras ejecutar la aplicación con la siguiente linea
+
+
+        yarn electron:serve
+
+
+Si quieres crear el build de la aplicacion tendras que correr la sigiente linea:
+
+
+        yarn electron:build
+
 
 This repo contains the **bare minimum code** to have an auto-updating Electron app using [`electron-updater`](https://github.com/electron-userland/electron-builder/tree/master/packages/electron-updater) with releases stored on GitHub.
 

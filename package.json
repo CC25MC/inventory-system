@@ -12,7 +12,8 @@
     "electron:serve": "concurrently -k \"cross-env BROWSER=none yarn start\" \"yarn electron:start\"",
     "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
     "electron:start": "wait-on tcp:3000 && electron .",
-    "publish": "yarn build && electron-builder -c.extraMetadata.main=build/main.js -p always"
+    "publish": "yarn build && electron-builder -c.extraMetadata.main=build/main.js -p always",
+    "postinstall": "install-app-deps"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
@@ -32,10 +33,13 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@vscode/sqlite3": "^5.0.7",
     "axios": "^0.24.0",
+    "bookshelf": "^1.2.0",
     "electron-is-dev": "^1.2.0",
     "electron-updater": "^4.3.9",
     "jotai": "^1.6.1",
+    "knex": "^0.95.10",
     "notistack": "^2.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

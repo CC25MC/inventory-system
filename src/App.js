@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { SnackbarProvider } from 'notistack'
 // import { Link as ReactLink } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from 'react-query'
-import Notify from './notify'
+// import Notify from './notify'
 import { Sidebar } from './components'
 
 const queryClient = new QueryClient()
@@ -67,7 +67,7 @@ const App = () => {
         <SnackbarProvider>
           <Sidebar>
             <AppRouter />
-            <Notify />
+            {/* <Notify /> */}
           </Sidebar>
         </SnackbarProvider>
       </ThemeProvider>
