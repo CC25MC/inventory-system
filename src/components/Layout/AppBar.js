@@ -1,16 +1,11 @@
 import { Add } from '@mui/icons-material'
 import { Box, Typography, Button, Divider } from '@mui/material'
 import { useLocation } from '../../Hooks'
+import { titles } from '../../variables';
 
-const titles = {
-  '/': 'Inventario',
-  '/client': 'Clientes',
-  '/product': 'Productos',
-  '/supplier': 'Proveedor'
-}
 
-export const AppBar = () => {
-  const { path } = useLocation()
+export const AppBar = ({ action }) => {
+  const { path, setPath } = useLocation()
   return (
     <>
       <Box
@@ -32,7 +27,14 @@ export const AppBar = () => {
         <Button sx={{ marginLeft: 'auto' }} color="primary" variant="outlined">
           Exportar a Excel
         </Button>
-        <Button sx={{ marginLeft: '10px' }} variant="contained">
+        <Button
+          sx={{ marginLeft: '10px' }}
+          onClick={() => {
+            setPath(path + '/create');
+            action(true);
+          }}
+          variant="contained"
+        >
           <Add />
           Agregar
         </Button>

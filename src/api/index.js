@@ -1,8 +1,6 @@
 import { request } from "./base";
-import { auth, Ticket, User } from "./services";
+import { Client } from "./services";
 
-request.auth = auth;
-request.ticket = Ticket;
-request.user = User;
+request.client = Client;
 
 export default request;

@@ -192,7 +192,7 @@ export const Sidebar = ({ children }) => {
           </ListItemButton>
         </List>
       </Drawer>
-      <Box component="main" sx={{ p: 3, width:"100%", height:"100vh", backgroundColor: '#EDEFF3' }}>
+      <Box component="main" sx={{ p: 3, width:"100%", height:"100%", backgroundColor: '#EDEFF3' }}>
         {children}
       </Box>
     </Box>

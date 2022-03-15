@@ -1,2 +1,2 @@
 export * from "./useLocation";
-export * from "./models";
+export * from "./useClient";

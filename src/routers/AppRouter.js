@@ -12,6 +12,7 @@ export const AppRouter = () => {
       <Routes location={path}>
         <Route path="/" element={<InventoryScreen />} />
         <Route path="/client" element={<ClientScreen />} />
+        <Route path="/client/create" element={<ClientScreen />} />
         <Route path="/product" element={<ProductScreen />} />
         <Route path="/supplier" element={<SupplierScreen />} />
       </Routes>

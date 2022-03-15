@@ -43,8 +43,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, "preload.js"),
+      contextIsolation: false
+      // preload: path.join(__dirname, "preload.js"),
     }
   })
 
@@ -105,3 +105,4 @@ app.on('activate', function () {
 // ipcMain.on('update_app', (event, arg) => {
 //   autoUpdater.checkForUpdates()
 // })
+const server = require('./server');

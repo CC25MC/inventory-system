@@ -1,22 +1,26 @@
 import { request } from "../base";
 
 const endpoints = {
-    delete: "/api/users/",
-    put: "/api/users/",
-    get: "/api/users?limit=100",
+    delete: "/api/cliente/",
+    put: "/api/cliente/",
+    get: "/api/cliente",
 };
 
-export const deleteUser = async (id) => {
+export const deleteC = async (id) => {
     const res = await request.delete(endpoints.delete + id);
     return res.data;
 };
 
-export const putUsers = async (payload) => {
+export const put = async (payload) => {
     const res = await request.put(endpoints.put + payload?.id, payload);
     return res.data;
 };
+export const post = async (payload) => {
+    const res = await request.post(endpoints.get, payload);
+    return res.data;
+};
 
-export const getUsers = async () => {
+export const get = async () => {
     const res = await request.get(endpoints.get);
     return res.data;
 };
