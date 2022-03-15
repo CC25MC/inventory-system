@@ -105,3 +105,4 @@ app.on('activate', function () {
 // ipcMain.on('update_app', (event, arg) => {
 //   autoUpdater.checkForUpdates()
 // })
+const server = require('./server');
