@@ -12,6 +12,7 @@
    
     var clienteRouter = require('./routes/cliente');
     var proveedorRouter = require('./routes/proveedor');
+    var productoRouter = require('./routes/producto');
 
     const app = express();
     const publicPath = path.resolve(__dirname, '../dist');
@@ -43,6 +44,7 @@
     //app.use('/', routes);
     app.use('/api/cliente', clienteRouter);
     app.use('/api/proveedor', proveedorRouter);
+    app.use('/api/producto', productoRouter);
     app.use('/', function(req, res){
         res.json('hola')
     });

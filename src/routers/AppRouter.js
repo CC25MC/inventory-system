@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import InventoryScreen from '../screens/InventoryScreen'
-import ClientScreen from '../screens/ClientScreen'
-import ProductScreen from '../screens/ProductScreen'
-import SupplierScreen from '../screens/SupplierScreen'
 import { useLocation } from '../Hooks'
+const ClientScreen = lazy(() => import('../screens/ClientScreen'))
+const InventoryScreen = lazy(() => import('../screens/InventoryScreen'))
+const ProductScreen = lazy(() => import('../screens/ProductScreen'))
+const SupplierScreen = lazy(() => import('../screens/SupplierScreen'))
+
 export const AppRouter = () => {
   const { path } = useLocation()
   return (

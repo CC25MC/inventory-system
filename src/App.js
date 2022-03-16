@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { AppRouter } from './routers/AppRouter'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { SnackbarProvider } from 'notistack'
@@ -6,8 +6,26 @@ import { SnackbarProvider } from 'notistack'
 import { QueryClientProvider, QueryClient } from 'react-query'
 // import Notify from './notify'
 import { Sidebar } from './components'
+import { Box, CircularProgress } from '@mui/material'
 
 const queryClient = new QueryClient()
+
+const Loading = () => {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  )
+}
 
 const theme = createTheme({
   palette: {
@@ -24,32 +42,6 @@ const theme = createTheme({
       contrastText: '#000'
     }
   },
-  // typography: {
-  //   fontFamily: [
-  //     '-apple-system',
-  //     'BlinkMacSystemFont',
-  //     '"Segoe UI"',
-  //     'Roboto',
-  //     '"Helvetica Neue"',
-  //     'Arial',
-  //     'sans-serif',
-  //     '"Apple Color Emoji"',
-  //     '"Segoe UI Emoji"',
-  //     '"Segoe UI Symbol"'
-  //   ].join(',')
-  // },
-  // components: {
-  //   MuiLink: {
-  //     defaultProps: {
-  //       component: LinkBehavior,
-  //     },
-  //   },
-  //   MuiButtonBase: {
-  //     defaultProps: {
-  //       LinkComponent: LinkBehavior,
-  //     },
-  //   },
-  // },
   breakpoints: {
     values: {
       mobile: 0,
@@ -64,12 +56,14 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <Sidebar>
-            <AppRouter />
-            {/* <Notify /> */}
-          </Sidebar>
-        </SnackbarProvider>
+        <Suspense fallback={<Loading />}>
+          <SnackbarProvider>
+            <Sidebar>
+              <AppRouter />
+              {/* <Notify /> */}
+            </Sidebar>
+          </SnackbarProvider>
+        </Suspense>
       </ThemeProvider>
     </QueryClientProvider>
   )

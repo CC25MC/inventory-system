@@ -11,12 +11,11 @@ import {
   TextField
 } from '@mui/material'
 import { AppBar } from '../../components'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar, GridActionsCellItem } from '@mui/x-data-grid'
 import { useLocation } from '../../Hooks'
 import CloseIcon from '@mui/icons-material/Close'
 import { Delete, Edit } from '@mui/icons-material'
 import Slide from '@mui/material/Slide'
-import { titles } from '../../variables'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -43,7 +42,7 @@ const SupplierView = ({
   const [ids, setIds] = useState([])
 
   const handleClick = () => {
-    setOpen(!open)
+    setOpen(false)
     setPath('/supplier')
     setValues({})
     setIds([])
@@ -51,9 +50,11 @@ const SupplierView = ({
 
   const handleValues = id => {
     setIds(id)
-    const res = allSuppliers.filter(x => x.id === id[0])
+    const res = allSuppliers.filter(x => x.id === id)
     if (res) {
       setValues(res[0])
+      setOpen(true) 
+      setPath('/supplier/create')
     }
   }
   const save = () => {
@@ -69,7 +70,31 @@ const SupplierView = ({
     { field: 'direccion', headerName: 'Dirección', width: 150 },
     { field: 'correo', headerName: 'Correo', width: 150 },
     { field: 'bank', headerName: 'Banco', width: 150 },
-    { field: 'notas', headerName: 'Notas', width: 150 }
+    { field: 'notas', headerName: 'Notas', width: 150 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        return [
+          <GridActionsCellItem
+            icon={<Edit />}
+            label="Edit"
+            className="textPrimary"
+            onClick={() => handleValues(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<Delete />}
+            label="Delete"
+            onClick={() => destroy(id)}
+            color="inherit"
+          />
+        ]
+      }
+    }
   ]
   const datos = { rows: allSuppliers, columns }
   return (
@@ -85,43 +110,11 @@ const SupplierView = ({
       {path === '/supplier' ? (
         <>
           <AppBar action={setOpen} />
-          <Box sx={{ display: 'flex', paddingTop: 3, paddingRight: 3 }}>
-            <Box />
-            <Button
-              variant={'contained'}
-              disabled={ids.length === 0 ? true : false}
-              startIcon={<Delete />}
-              sx={{ marginLeft: 'auto' }}
-              onClick={() => {
-                ids.map(id => destroy(id))
-              }}
-            >
-              Eliminar
-            </Button>
-            <Button
-              variant={'contained'}
-              sx={{ marginLeft: 1 }}
-              startIcon={<Edit />}
-              disabled={ids.length === 1 ? false : true}
-              onClick={() => {
-                setOpen(true)
-                setPath('/supplier/create')
-              }}
-            >
-              Editar
-            </Button>
-          </Box>
-
           <Box sx={{ height: '700px', width: '100%', padding: 3 }}>
             <DataGrid
               {...datos}
               loading={isLoading}
-              checkboxSelection
               components={{ Toolbar: GridToolbar }}
-              onSelectionModelChange={id => {
-                handleValues(id)
-              }}
-              selectionModel={ids}
             />
           </Box>
         </>

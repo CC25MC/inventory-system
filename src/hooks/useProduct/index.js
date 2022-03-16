@@ -3,9 +3,9 @@ import request from '../../api'
 import { useSnackbar } from 'notistack'
 import { useLocation } from '../useLocation'
 
-export const getSupplier = () => {
-  const { isLoading, data, error } = useQuery('/api/proveedor', () =>
-    request.supplier.get()
+export const getProducts = () => {
+  const { isLoading, data, error } = useQuery('/api/producto', () =>
+    request.product.get()
   )
   return {
     isLoading,
@@ -14,16 +14,16 @@ export const getSupplier = () => {
   }
 }
 
-export const mutateSupplier = () => {
+export const mutateProduct = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { setPath } = useLocation()
   const { mutate, isLoading, error } = useMutation(
     payload =>
-      payload?.id ? request.supplier.put(payload) : request.supplier.post(payload),
+      payload?.id ? request.product.put(payload) : request.product.post(payload),
     {
       onSuccess: data => {
         if (data?.data) {
-          enqueueSnackbar(`Proveedor ${data?.message}`, {
+          enqueueSnackbar(`Producto ${data?.message}`, {
             variant: 'success'
           })
           setPath('/supplier')
@@ -44,10 +44,10 @@ export const destroySupplier = () => {
     mutate: destroy,
     isLoading,
     error
-  } = useMutation(payload => request.supplier.deleteS(payload), {
+  } = useMutation(payload => request.product.deleteP(payload), {
     onSuccess: data => {
       if (data?.data) {
-        enqueueSnackbar(`Proveedor ${data?.message}`, {
+        enqueueSnackbar(`Producto ${data?.message}`, {
           variant: 'success'
         })
       }
