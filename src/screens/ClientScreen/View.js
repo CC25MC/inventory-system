@@ -67,42 +67,7 @@ const ClientView = ({
     { field: 'rut', headerName: 'Rut', width: 150 },
     { field: 'direccion', headerName: 'Dirección', width: 150 },
     { field: 'correo', headerName: 'Correo', width: 150 },
-    {
-      field: 'delete',
-      width: 75,
-      sortable: false,
-      disableColumnMenu: true,
-      renderHeader: () => {
-        return (
-          <IconButton
-            onClick={() => {
-              ids.map(id => destroy(id))
-            }}
-          >
-            <Delete />
-          </IconButton>
-        )
-      }
-    },
-    {
-      field: 'edit',
-      width: 75,
-      sortable: false,
-      disableColumnMenu: true,
-      renderHeader: () => {
-        return (
-          <IconButton
-            disabled={ids.length === 1 ? false : true}
-            onClick={() => {
-              setOpen(true)
-              setPath('/client/create')
-            }}
-          >
-            <Edit />
-          </IconButton>
-        )
-      }
-    }
+    { field: 'notas', headerName: 'Notas', width: 150 }
   ]
   const datos = { rows: allClients, columns }
   return (
@@ -118,6 +83,33 @@ const ClientView = ({
       {path === '/client' ? (
         <>
           <AppBar action={setOpen} />
+          <Box sx={{ display: 'flex', paddingTop: 3, paddingRight: 3 }}>
+            <Box />
+            <Button
+              variant={'contained'}
+              disabled={ids.length === 0 ? true : false}
+              startIcon={<Delete />}
+              sx={{ marginLeft: 'auto' }}
+              onClick={() => {
+                ids.map(id => destroy(id))
+              }}
+            >
+              Eliminar
+            </Button>
+            <Button
+              variant={'contained'}
+              sx={{ marginLeft: 1 }}
+              startIcon={<Edit />}
+              disabled={ids.length === 1 ? false : true}
+              onClick={() => {
+                setOpen(true)
+                setPath('/client/create')
+              }}
+            >
+              Editar
+            </Button>
+          </Box>
+
           <Box sx={{ height: '700px', width: '100%', padding: 3 }}>
             <DataGrid
               {...datos}
@@ -127,6 +119,7 @@ const ClientView = ({
               onSelectionModelChange={id => {
                 handleValues(id)
               }}
+              selectionModel={ids}
             />
           </Box>
         </>
@@ -153,10 +146,10 @@ const ClientView = ({
                   variant="h6"
                   component="div"
                 >
-                  Crear Clientes
+                  {ids.length === 1 ? 'Actualizar Clientes' : 'Crear Clientes'}
                 </Typography>
                 <Button disabled={isLoading} color="inherit" onClick={save}>
-                  Crear
+                  {ids.length === 1 ? 'Actualizar' : 'Crear'}
                 </Button>
               </Toolbar>
             </MuiAppBar>
