@@ -50,7 +50,7 @@ const ProductView = ({
     setValues({})
     setIds([])
   }
-
+  console.log(allProduct, allCombo)
   const handleValues = id => {
     setIds(id)
     const res = tab
