@@ -58,7 +58,7 @@ function createWindow() {
 app.on('ready', () => {
   createWindow()
 
-  // autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 // Quit when all windows are closed.
@@ -76,33 +76,33 @@ app.on('activate', function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-// autoUpdater.on('checking-for-update', () => {
-//   sendStatusToWindow('message', 'Verificando Actualización...')
-// })
-// autoUpdater.on('update-available', info => {
-//   sendStatusToWindow('message', 'Actualización Disponible.')
-// })
-// autoUpdater.on('update-not-available', info => {
-//   sendStatusToWindow('message', 'No hay Actualizaciones')
-// })
-// autoUpdater.on('error', err => {
-//   sendStatusToWindow(
-//     'message',
-//     'Ah Ocurrido un error al descargar la actualización' + err
-//   )
-// })
-// autoUpdater.on('download-progress', progressObj => {
-//   win.webContents.send('progressbar', progressObj.percent)
-// })
-// autoUpdater.on('update-downloaded', info => {
-//   sendStatusToWindow('message', 'Actualización Descargada')
-// })
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('message', 'Verificando Actualización...')
+})
+autoUpdater.on('update-available', info => {
+  sendStatusToWindow('message', 'Actualización Disponible.')
+})
+autoUpdater.on('update-not-available', info => {
+  sendStatusToWindow('message', 'No hay Actualizaciones')
+})
+autoUpdater.on('error', err => {
+  sendStatusToWindow(
+    'message',
+    'Ah Ocurrido un error al descargar la actualización' + err
+  )
+})
+autoUpdater.on('download-progress', progressObj => {
+  win.webContents.send('progressbar', progressObj.percent)
+})
+autoUpdater.on('update-downloaded', info => {
+  sendStatusToWindow('message', 'Actualización Descargada')
+})
 
-// ipcMain.on('restart_app', (event, arg) => {
-//   autoUpdater.quitAndInstall()
-// })
+ipcMain.on('restart_app', (event, arg) => {
+  autoUpdater.quitAndInstall()
+})
 
-// ipcMain.on('update_app', (event, arg) => {
-//   autoUpdater.checkForUpdates()
-// })
+ipcMain.on('update_app', (event, arg) => {
+  autoUpdater.checkForUpdates()
+})
 const server = require('./server');

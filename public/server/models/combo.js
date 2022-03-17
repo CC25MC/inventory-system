@@ -17,6 +17,6 @@ Combo.init({
 });
 
 Combo.hasMany(Product);
-Product.belongsTo(Combo);
+// Product.belongsTo(Combo);
 
 module.exports = Combo; 

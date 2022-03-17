@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: 'public/server/database/data/database.sqlite',
+    storage: '/inventorysystemdata/data/database.sqlite',
     //logging: false
   });
 

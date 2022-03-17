@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, lazy } from 'react'
 import { AppRouter } from './routers/AppRouter'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { SnackbarProvider } from 'notistack'
 // import { Link as ReactLink } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from 'react-query'
-// import Notify from './notify'
+const Notify = lazy(() => import('./notify'))
 import { Sidebar } from './components'
 import { Box, CircularProgress } from '@mui/material'
 
@@ -60,7 +60,7 @@ const App = () => {
           <SnackbarProvider>
             <Sidebar>
               <AppRouter />
-              {/* <Notify /> */}
+              <Notify />
             </Sidebar>
           </SnackbarProvider>
         </Suspense>

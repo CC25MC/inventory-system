@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Button from '@material-ui/core/Button';
-import Box from '@mui/material/Box';
+import {Button, LinearProgress, Box} from '@mui/material';
 // import { AppRouter } from 'routers/AppRouter';
 
-// const electron = window.require('electron');
+const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
 const Notify = () => {
@@ -39,7 +37,7 @@ const Notify = () => {
     <Box style={{
       position: "fixed",
       bottom: "20px",
-      left: "20px",
+      right: "20px",
       width: "300px",
       padding: "20px",
       borderRadius: "5px",

@@ -38,6 +38,7 @@ const ProductView = ({
   destroy,
   destroyC
 }) => {
+  const audio = new Audio('/scanner-effect.mp3')
   const [tab, setTab] = useState(true)
   const { path, setPath } = useLocation()
   const [open, setOpen] = useState(true)
@@ -204,9 +205,26 @@ const ProductView = ({
                 <TextField
                   id="codebar"
                   label="Codebar"
-                  value={codebar}
                   variant="outlined"
-                  onChange={handleChange('codebar')}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      var code = e.target.value
+                      console.log(code)
+                    }
+                  }}
+                  onChange={() => {
+                    audio.currentTime = 0
+                    audio.addEventListener(
+                      'timeupdate',
+                      function () {
+                        if (audio.currentTime >= 0.05) {
+                          audio.pause()
+                        }
+                      },
+                      false
+                    )
+                    audio.play()
+                  }}
                   fullWidth
                 />
                 <Box sx={{ marginTop: 2 }} />
