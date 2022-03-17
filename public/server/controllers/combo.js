@@ -1,15 +1,15 @@
-const Producto = require('../models/producto');
+const Combo = require('../models/combo');
 
 const test = async (req,res) => {
 
-    const response = { success: true, data: "producto" }
+    const response = { success: true, data: "combo" }
 
   res.json(response);
 };
 
 const list = async (req, res) => {
 
-  const response = await Producto.findAll()
+  const response = await Combo.findAll()
   .then(function(data){
     const res = { success: true, data: data }
     return res;
@@ -26,7 +26,7 @@ const create = async ( req, res) =>{
 
   try {
 
-    const response = await Producto.create({
+    const response = await Combo.create({
         nombre      : req.body.nombre,
         sku         : req.body.sku,
         codebar     : req.body.codebar,
@@ -55,7 +55,7 @@ const update = async ( req, res) =>{
 
     const { id } = req.params;
 
-    const response = await Producto.update({
+    const response = await Combo.update({
       nombre      : req.body.nombre,
       sku         : req.body.sku,
       codebar     : req.body.codebar,
@@ -86,7 +86,7 @@ const getOne = async ( req, res) =>{
 
     const { id } = req.params;
 
-    const response = await Producto.findAll({
+    const response = await Combo.findAll({
       where: { id: id}
     })
     .then( function(data){
@@ -111,7 +111,7 @@ const deleteOne = async ( req, res) =>{
 
     const { id } = req.params;
 
-    const response = await Producto.destroy({
+    const response = await Combo.destroy({
       where: { id: id }
     })
     .then( function(data){

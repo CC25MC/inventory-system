@@ -3,27 +3,27 @@ import request from '../../api'
 import { useSnackbar } from 'notistack'
 import { useLocation } from '../useLocation'
 
-export const getProducts = () => {
-  const { isLoading, data, error } = useQuery('/api/producto', () =>
-    request.product.get()
+export const getCombo = () => {
+  const { isLoading, data, error } = useQuery('/api/combo', () =>
+    request.combo.get()
   )
   return {
     isLoading,
-    data: data?.data || [],
+    dataC: data?.data || [],
     error
   }
 }
 
-export const mutateProduct = () => {
+export const mutateCombo = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { setPath } = useLocation()
-  const { mutate, isLoading, error } = useMutation(
+  const { mutate: mutateC , isLoading, error } = useMutation(
     payload =>
-      payload?.id ? request.product.put(payload) : request.product.post(payload),
+      payload?.id ? request.combo.put(payload) : request.combo.post(payload),
     {
       onSuccess: data => {
         if (data?.data) {
-          enqueueSnackbar(`Producto ${data?.message}`, {
+          enqueueSnackbar(`Combo ${data?.message}`, {
             variant: 'success'
           })
           setPath('/product')
@@ -34,20 +34,20 @@ export const mutateProduct = () => {
   return {
     isLoading,
     error,
-    mutate
+    mutateC
   }
 }
 
-export const destroyProduct = () => {
+export const destroyCombo = () => {
   const { enqueueSnackbar } = useSnackbar()
   const {
-    mutate: destroy,
+    mutate: destroyC,
     isLoading,
     error
-  } = useMutation(payload => request.product.deleteP(payload), {
+  } = useMutation(payload => request.combo.deleteC(payload), {
     onSuccess: data => {
       if (data?.data) {
-        enqueueSnackbar(`Producto ${data?.message}`, {
+        enqueueSnackbar(`Combo ${data?.message}`, {
           variant: 'success'
         })
       }
@@ -57,6 +57,6 @@ export const destroyProduct = () => {
   return {
     isLoading,
     error,
-    destroy
+    destroyC
   }
 }
