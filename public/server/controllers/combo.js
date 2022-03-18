@@ -1,4 +1,6 @@
 const Combo = require('../models/combo');
+const Producto = require('../models/producto');
+const Combo_Producto = require('../models/Relaciones/combo_productos')
 
 const test = async (req,res) => {
 
@@ -9,7 +11,11 @@ const test = async (req,res) => {
 
 const list = async (req, res) => {
 
-  const response = await Combo.findAll()
+  const response = await Combo.findAll({
+   include: {
+    model: Producto,
+  }
+  })
   .then(function(data){
     const res = { success: true, data: data }
     return res;
@@ -22,19 +28,40 @@ const list = async (req, res) => {
 
 }
 
-const create = async ( req, res) =>{
+const create = async ( req, res) =>{ 
 
   try {
 
+    const {productos} = req.body;
+
     const response = await Combo.create({
-        nombre      : req.body.nombre,
-        sku         : req.body.sku,
-        codebar     : req.body.codebar,
-        descripcion : req.body.descripcion,
-        unidad      : req.body.unidad,
-        precio      : req.body.precio,
+      nombre      : req.body.nombre,
+      sku         : req.body.sku,
+      codebar     : req.body.codebar,
+      descripcion : req.body.descripcion,
+      unidad      : req.body.unidad,
+      precio      : req.body.precio,
     })
-    .then(function(data){
+    .then(async function(data){
+      if(productos && productos.length > 0){ 
+        let arrid=[];
+        let arrcantidad=[];
+        productos.forEach(producto => {
+          arrid.push(producto.id)
+          arrcantidad.push(producto.cantidad)
+        });
+        const relacion = await data.addProducto(arrid)
+        //actualizar cantidades
+        for(let i=0; i < relacion.length; i++) {
+          arrcantidad[i]
+            const response = await Combo_Producto.update({
+            cantidad      : arrcantidad[i],
+            },{
+              where: { id: relacion[i].id}
+            })
+        }
+
+      }
       const res = { success: true, data: data, message:"creado exitosamente" }
       return res;
     })
@@ -42,10 +69,12 @@ const create = async ( req, res) =>{
       const res = { success: false, error: error }
       return res;
     })
+
     res.json(response);
 
   } catch (e) {
     console.log(e);
+    res.json(e)
   }
 }
 
@@ -54,6 +83,7 @@ const update = async ( req, res) =>{
   try {
 
     const { id } = req.params;
+    const {productos} = req.body; 
 
     const response = await Combo.update({
       nombre      : req.body.nombre,
@@ -66,6 +96,9 @@ const update = async ( req, res) =>{
       where: { id: id}
     })
     .then(function(data){
+      if(productos && productos.length > 0){ 
+        data.addProducto(productos)
+      }
       const res = { success: true, data: data, message:"actualizado exitosamente" }
       return res;
     })
@@ -87,7 +120,10 @@ const getOne = async ( req, res) =>{
     const { id } = req.params;
 
     const response = await Combo.findAll({
-      where: { id: id}
+      where: { id: id},
+      include: {
+        model: Producto,
+      }
     })
     .then( function(data){
       const res = { success: true, data: data }

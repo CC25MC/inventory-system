@@ -16,7 +16,7 @@ Combo.init({
     modelName: "Combo"
 });
 
-Combo.belongsToMany(Product,{through:"comboproductos"});
+//Combo.belongsToMany(Product,{through:"comboproductos"});
 // Product.belongsTo(Combo);
 
 module.exports = Combo; 
