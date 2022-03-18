@@ -95,9 +95,11 @@ const update = async ( req, res) =>{
     },{
       where: { id: id}
     })
-    .then(function(data){
-      if(productos && productos.length > 0){ 
-        data.addProducto(productos)
+    .then(async function(data){
+      if(productos && productos.length > 0){
+        console.log("hay productos")
+        const relacion = await data.addProducto(productos)
+        console.log(relacion)
       }
       const res = { success: true, data: data, message:"actualizado exitosamente" }
       return res;

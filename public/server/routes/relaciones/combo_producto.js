@@ -4,7 +4,8 @@ const {
     test,
     list,
     getOne,
-    update
+    update,
+    create
 } = require('../../controllers/relaciones/combo_producto');
 
 const router = Router();
@@ -12,6 +13,7 @@ const router = Router();
 router.get(     '/test' , test);
 router.get(     '/'     , list);
 router.get(     '/:id'  , getOne);
+router.post(    '/'     , create);
 router.put(     '/:id'  , update);
 
 
