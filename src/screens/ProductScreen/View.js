@@ -8,7 +8,8 @@ import {
   AppBar as MuiAppBar,
   Toolbar,
   IconButton,
-  TextField
+  TextField,
+  Stack
 } from '@mui/material'
 import { AppBar } from '../../components'
 import { Delete, Edit } from '@mui/icons-material'
@@ -16,12 +17,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useLocation } from '../../Hooks'
 import { DataGrid, GridToolbar, GridActionsCellItem } from '@mui/x-data-grid'
 import Slide from '@mui/material/Slide'
-
+import scanner from './scanner.mp3'
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
 const ProductView = ({
+  values,
   nombre,
   sku,
   codebar,
@@ -38,7 +40,7 @@ const ProductView = ({
   destroy,
   destroyC
 }) => {
-  const audio = new Audio('/scanner-effect.mp3')
+  const audio = new Audio(scanner)
   const [tab, setTab] = useState(true)
   const { path, setPath } = useLocation()
   const [open, setOpen] = useState(true)
@@ -50,7 +52,7 @@ const ProductView = ({
     setValues({})
     setIds([])
   }
-  console.log(allProduct, allCombo)
+
   const handleValues = id => {
     setIds(id)
     const res = tab
@@ -199,47 +201,62 @@ const ProductView = ({
                 }}
               >
                 <Typography variant="h6" component="div">
-                  {tab ? 'Detalles del Producto' : 'Detalles del Combo'}
+                  {tab ? 'Detalles del Producto:' : 'Detalles del Combo:'}
                 </Typography>
                 <Box sx={{ marginTop: 2 }} />
-                <TextField
-                  id="codebar"
-                  label="Codebar"
-                  variant="outlined"
-                  onKeyDown={e => {
-                    if (e.keyCode === 13) {
-                      var code = e.target.value
-                      console.log(code)
-                    }
-                  }}
-                  onChange={() => {
-                    audio.currentTime = 0
-                    audio.addEventListener(
-                      'timeupdate',
-                      function () {
-                        if (audio.currentTime >= 0.05) {
-                          audio.pause()
-                        }
-                      },
-                      false
-                    )
-                    audio.play()
-                  }}
-                  fullWidth
-                />
-                <Box sx={{ marginTop: 2 }} />
-                <TextField
-                  id="sku"
-                  label="Sku"
-                  value={sku}
-                  variant="outlined"
-                  onChange={handleChange('sku')}
-                  fullWidth
-                />
+                <Stack direction="row" spacing={2}>
+                  <TextField
+                    id="codebar"
+                    label="Codebar"
+                    variant="outlined"
+                    onKeyDown={e => {
+                      if (e.keyCode === 13) {
+                        var code = e.target.value
+                        setValues({
+                          ...values,
+                          codebar: code
+                        })
+                        document.getElementById('sku').focus()
+                      }
+                    }}
+                    autoFocus
+                    onChange={async () => {
+                      audio.currentTime = 0
+                      await audio
+                        .play()
+                        .then(() => {
+                          console.log('audio played auto')
+                        })
+                        .catch(error => {
+                          console.log(error)
+                        })
+                    }}
+                    fullWidth
+                  />
+                  <TextField
+                    id="sku"
+                    label="Sku"
+                    onKeyDown={e => {
+                      if (e.keyCode === 13) {
+                        document.getElementById('nombre').focus()
+                      }
+                    }}
+                    value={sku}
+                    variant="outlined"
+                    onChange={handleChange('sku')}
+                    fullWidth
+                  />
+                </Stack>
+
                 <Box sx={{ marginTop: 2 }} />
                 <TextField
                   id="nombre"
                   label="Nombre"
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      document.getElementById('descripcion').focus()
+                    }
+                  }}
                   variant="outlined"
                   value={nombre}
                   onChange={handleChange('nombre')}
@@ -249,33 +266,43 @@ const ProductView = ({
                 <TextField
                   id="descripcion"
                   label="Descripción"
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      document.getElementById('unidad').focus()
+                    }
+                  }}
                   value={descripcion}
                   variant="outlined"
                   onChange={handleChange('descripcion')}
                   fullWidth
                 />
                 <Box sx={{ marginTop: 2 }} />
+                <Stack direction="row" spacing={2}>
+                  <TextField
+                    id="unidad"
+                    label="Unidad"
+                    onKeyDown={e => {
+                      if (e.keyCode === 13) {
+                        document.getElementById('precio').focus()
+                      }
+                    }}
+                    value={unidad}
+                    type="number"
+                    onChange={handleChange('unidad')}
+                    variant="outlined"
+                    fullWidth
+                  />
 
-                <TextField
-                  id="unidad"
-                  label="Unidad"
-                  value={unidad}
-                  type="number"
-                  onChange={handleChange('unidad')}
-                  variant="outlined"
-                  fullWidth
-                />
-                <Box sx={{ marginTop: 2 }} />
-
-                <TextField
-                  id="precio"
-                  label="Precio"
-                  value={precio}
-                  type="number"
-                  variant="outlined"
-                  onChange={handleChange('precio')}
-                  fullWidth
-                />
+                  <TextField
+                    id="precio"
+                    label="Precio"
+                    value={precio}
+                    type="number"
+                    variant="outlined"
+                    onChange={handleChange('precio')}
+                    fullWidth
+                  />
+                </Stack>
               </Box>
             </Box>
           </Dialog>

@@ -8,9 +8,11 @@ import {
   AppBar as MuiAppBar,
   Toolbar,
   IconButton,
-  TextField
+  TextField,
+  Switch,
+  FormControlLabel
 } from '@mui/material'
-import { AppBar } from '../../components'
+import { AppBar, Search } from '../../components'
 import { DataGrid, GridToolbar, GridActionsCellItem } from '@mui/x-data-grid'
 import { useLocation } from '../../Hooks'
 import CloseIcon from '@mui/icons-material/Close'
@@ -22,6 +24,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 
 const SupplierView = ({
+  values,
   nombre,
   correo,
   telefono,
@@ -39,6 +42,7 @@ const SupplierView = ({
 }) => {
   const { path, setPath } = useLocation()
   const [open, setOpen] = useState(true)
+  const [switchs, setSwitch] = useState(true)
   const [ids, setIds] = useState([])
 
   const handleClick = () => {
@@ -53,7 +57,7 @@ const SupplierView = ({
     const res = allSuppliers.filter(x => x.id === id)
     if (res) {
       setValues(res[0])
-      setOpen(true) 
+      setOpen(true)
       setPath('/supplier/create')
     }
   }
@@ -141,7 +145,9 @@ const SupplierView = ({
                   variant="h6"
                   component="div"
                 >
-                  {ids.length === 1 ? 'Actualizar Proveedor' : 'Crear Proveedor'}
+                  {ids.length === 1
+                    ? 'Actualizar Proveedor'
+                    : 'Crear Proveedor'}
                 </Typography>
                 <Button disabled={isLoading} color="inherit" onClick={save}>
                   {ids.length === 1 ? 'Actualizar' : 'Crear'}
@@ -221,15 +227,30 @@ const SupplierView = ({
                   fullWidth
                 />
                 <Box sx={{ marginTop: 2 }} />
-
-                <TextField
-                  id="direccion"
-                  label="Dirección"
-                  value={direccion}
-                  onChange={handleChange('direccion')}
-                  fullWidth
-                  variant="outlined"
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={switchs}
+                      onChange={() => setSwitch(!switchs)}
+                      name="gilad"
+                    />
+                  }
+                  label={switchs ? 'Autocompletado Activo' : 'Texto Activo'}
                 />
+                <Box sx={{ marginTop: 2 }} />
+
+                {switchs ? (
+                  <Search setData={setValues} data={values} />
+                ) : (
+                  <TextField
+                    id="direccion"
+                    label="Dirección"
+                    value={direccion}
+                    onChange={handleChange('direccion')}
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
                 <Box sx={{ marginTop: 2 }} />
 
                 <TextField

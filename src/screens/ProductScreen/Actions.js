@@ -26,7 +26,6 @@ export const Actions = () => {
   const { mutateC, isLoading: posLoadingCombo, errorC } = mutateCombo()
   const { destroy, isLoading: destroyIsLoading } = destroyProduct()
   const { destroyC, isLoading: destroyIsLoadingCombo } = destroyCombo()
-  console.log(allProduct)
   useEffect(() => {
     if (error) {
       enqueueSnackbar('Error creando o editando el producto', {
@@ -56,6 +55,7 @@ export const Actions = () => {
   }
 
   return {
+    values,
     nombre,
     sku,
     codebar,

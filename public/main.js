@@ -40,6 +40,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: false,
@@ -105,4 +106,4 @@ ipcMain.on('restart_app', (event, arg) => {
 ipcMain.on('update_app', (event, arg) => {
   autoUpdater.checkForUpdates()
 })
-const server = require('./server');
+const server = require('./server')
