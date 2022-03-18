@@ -39,6 +39,7 @@ export const Actions = () => {
     mutate(values)
   }
   return {
+    values,
     nombre,
     correo,
     telefono,
