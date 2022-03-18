@@ -14,6 +14,7 @@
     var proveedorRouter = require('./routes/proveedor');
     var productoRouter = require('./routes/producto');
     var comboRouter = require('./routes/combo');
+    var comboproductosRouter = require('./routes/relaciones/combo_producto');
 
     const app = express();
     const publicPath = path.resolve(__dirname, '../dist');
@@ -47,6 +48,7 @@
     app.use('/api/proveedor', proveedorRouter);
     app.use('/api/producto', productoRouter);
     app.use('/api/combo', comboRouter);
+    app.use('/api/comboproductos', comboproductosRouter);
     app.use('/', function(req, res){
         res.json('hola')
     });
