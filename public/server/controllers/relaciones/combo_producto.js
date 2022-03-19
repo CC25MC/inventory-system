@@ -12,7 +12,9 @@ const test = async (req,res) => {
 
 const list = async (req, res) => {
 
-  const response = await Combo_Producto.findAll()
+  const response = await Combo_Producto.findAll({
+  
+  })
   .then(function(data){
     const res = { success: true, data: data }
     return res;
@@ -75,10 +77,35 @@ const update = async ( req, res) =>{
   }
 }
 
+const create = async ( req, res) =>{
+
+  try {
+
+    const response = await Combo_Producto.create({
+        cantidad        : req.body.cantidad,
+        ComboId         : req.body.ComboId,
+        ProductoId      : req.body.ProductoId
+    })
+    .then(function(data){
+      const res = { success: true, data: data, message:"creado exitosamente" }
+      return res;
+    })
+    .catch(error=>{
+      const res = { success: false, error: error }
+      return res;
+    })
+    res.json(response);
+
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 module.exports = {
     test,
     list,
     getOne,
-    update
+    update,
+    create
 };
