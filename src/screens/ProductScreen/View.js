@@ -11,13 +11,15 @@ import {
   TextField,
   Stack
 } from '@mui/material'
-import { AppBar } from '../../components'
+import { Scrollbars } from 'react-custom-scrollbars'
+import { AppBar, ListItem } from '../../components'
 import { Delete, Edit } from '@mui/icons-material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useLocation } from '../../Hooks'
 import { DataGrid, GridToolbar, GridActionsCellItem } from '@mui/x-data-grid'
 import Slide from '@mui/material/Slide'
 import scanner from './scanner.mp3'
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
@@ -33,12 +35,17 @@ const ProductView = ({
   allProduct,
   isLoading,
   allCombo,
+  product,
   error,
   handleChange,
   setValues,
   saveData,
+  setProduct,
   destroy,
-  destroyC
+  destroyC,
+  removeProducList,
+  emptyList,
+  operationQuantity
 }) => {
   const audio = new Audio(scanner)
   const [tab, setTab] = useState(true)
@@ -208,6 +215,7 @@ const ProductView = ({
                   <TextField
                     id="codebar"
                     label="Codebar"
+                    size="small"
                     variant="outlined"
                     onKeyDown={e => {
                       if (e.keyCode === 13) {
@@ -236,6 +244,7 @@ const ProductView = ({
                   <TextField
                     id="sku"
                     label="Sku"
+                    size="small"
                     onKeyDown={e => {
                       if (e.keyCode === 13) {
                         document.getElementById('nombre').focus()
@@ -252,6 +261,7 @@ const ProductView = ({
                 <TextField
                   id="nombre"
                   label="Nombre"
+                  size="small"
                   onKeyDown={e => {
                     if (e.keyCode === 13) {
                       document.getElementById('descripcion').focus()
@@ -266,6 +276,7 @@ const ProductView = ({
                 <TextField
                   id="descripcion"
                   label="Descripción"
+                  size="small"
                   onKeyDown={e => {
                     if (e.keyCode === 13) {
                       document.getElementById('unidad').focus()
@@ -281,6 +292,7 @@ const ProductView = ({
                   <TextField
                     id="unidad"
                     label="Unidad"
+                    size="small"
                     onKeyDown={e => {
                       if (e.keyCode === 13) {
                         document.getElementById('precio').focus()
@@ -296,6 +308,7 @@ const ProductView = ({
                   <TextField
                     id="precio"
                     label="Precio"
+                    size="small"
                     value={precio}
                     type="number"
                     variant="outlined"
@@ -303,6 +316,121 @@ const ProductView = ({
                     fullWidth
                   />
                 </Stack>
+                <Box sx={{ marginTop: 2 }} />
+
+                {!tab && (
+                  <>
+                    <Typography variant="h6" component="div">
+                      Productos del Combo:
+                    </Typography>
+                    <Box sx={{ marginTop: 2 }} />
+
+                    <Box
+                      sx={{
+                        borderRadius: 2,
+                        width: '100%',
+                        height: '100%',
+                        border: '1px solid #131B4F',
+                        padding: 3
+                      }}
+                    >
+                      <Box sx={{ display: 'flex' }}>
+                        <TextField
+                          id="codebar"
+                          label="Escanear"
+                          size="small"
+                          variant="outlined"
+                          onKeyDown={e => {
+                            if (e.keyCode === 13) {
+                              var code = e.target.value
+                              const resultado = allProduct.find(
+                                item => item.codebar === code
+                              )
+                              if (resultado) {
+                                const res = product.find(
+                                  item => item.codebar === resultado.codebar
+                                )
+                                var newData
+                                if (res) {
+                                  console.log("entro")
+                                  newData = product.map(item => {
+                                    if (item.codebar === res.codebar) {
+                                      item['cantidad'] = item['cantidad'] + 1
+                                      return item
+                                    }
+                                    return item
+                                  })
+                                } else {
+                                  newData = [
+                                    ...product,
+                                    {
+                                      nombre: resultado.nombre,
+                                      precio: resultado.precio,
+                                      id: resultado.id,
+                                      codebar: resultado.codebar,
+                                      cantidad: 1
+                                    }
+                                  ]
+                                }
+                                setProduct(newData)
+                              } else {
+                              }
+                            }
+                          }}
+                          autoFocus
+                          onChange={async () => {
+                            audio.currentTime = 0
+                            await audio
+                              .play()
+                              .then(() => {
+                                console.log('audio played auto')
+                              })
+                              .catch(error => {
+                                console.log(error)
+                              })
+                          }}
+                          sx={{ width: '200px' }}
+                        />
+
+                        <Button
+                          sx={{ marginLeft: 'auto' }}
+                          variant="contained"
+                          color="error"
+                          onClick={emptyList}
+                        >
+                          Borrar Todo
+                        </Button>
+                      </Box>
+                      <Box sx={{ marginTop: 2 }} />
+
+                      <Scrollbars
+                        renderTrackHorizontal={props => (
+                          <Box
+                            {...props}
+                            sx={{ display: 'none' }}
+                            className="track-horizontal"
+                          />
+                        )}
+                        style={{
+                          height: '250px',
+                          overflowX: 'hidden'
+                        }}
+                      >
+                        {product.map((item, key) => (
+                          <ListItem
+                            key={key}
+                            id={key}
+                            title={item?.nombre}
+                            price={item?.precio}
+                            cantidad={item?.cantidad}
+                            destroy={() => removeProducList(key)}
+                            operationQuantity={operationQuantity}
+                          />
+                        ))}
+                      </Scrollbars>
+                    </Box>
+                  </>
+                )}
               </Box>
             </Box>
           </Dialog>

@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const { autoUpdater } = require('electron-updater')
 const path = require('path')
 const isDev = require('electron-is-dev')
+const WindowStateManager = require('electron-window-state-manager')
 require('@electron/remote/main').initialize()
 
 let template = []
@@ -33,14 +34,20 @@ function sendStatusToWindow(option, text) {
   if (option === 'message') win.webContents.send('message', text)
 }
 
+const mainWindowState = new WindowStateManager('win', {
+  defaultWidth: 1024,
+  defaultHeight: 768
+})
+
 function createWindow() {
   // Create the browser window.
   // const menu = Menu.buildFromTemplate(template);
   // Menu.setApplicationMenu(menu);
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    fullscreen: true,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: false,
@@ -58,8 +65,16 @@ function createWindow() {
 
 app.on('ready', () => {
   createWindow()
-
   autoUpdater.checkForUpdatesAndNotify()
+
+  if (mainWindowState.maximized) {
+    win.maximize()
+  }
+  // Don't forget to save the current state
+  // of the Browser window when it's about to be closed
+  win.on('close', () => {
+    mainWindowState.saveState(win)
+  })
 })
 
 // Quit when all windows are closed.
