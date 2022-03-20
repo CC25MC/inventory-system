@@ -188,6 +188,7 @@ const ClientView = ({
                 <TextField
                   id="correo"
                   label="correo"
+                  type={"email"}
                   value={correo}
                   variant="outlined"
                   onChange={handleChange('correo')}
