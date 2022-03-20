@@ -12,7 +12,8 @@ Combo_Producto.init({
         autoIncrement: true,
         allowNull: false
     },
-    cantidad:           {type: DataTypes.NUMBER, allowNull: true}
+    cantidad:           {type: DataTypes.NUMBER, allowNull: true},
+    estatus:            {type: DataTypes.BOOLEAN, allowNull: true, defaultValue: true}
 }, {
     sequelize,
     modelName: "Combo_Producto"
@@ -20,5 +21,6 @@ Combo_Producto.init({
 
 Combo.belongsToMany(Producto,{through:"Combo_Producto"});
 Producto.belongsToMany(Combo,{through:"Combo_Producto"});
+
 
 module.exports = Combo_Producto; 

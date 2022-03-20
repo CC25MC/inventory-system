@@ -101,11 +101,36 @@ const create = async ( req, res) =>{
   }
 }
 
+const deleteOne = async ( req, res) =>{
+
+  try {
+
+    const { id } = req.params;
+
+    const response = await Combo_Producto.destroy({
+      where: { id: id }
+    })
+    .then( function(data){
+      const res = { success: true, data: data, message:"borrado exitosamente" }
+      return res;
+    })
+    .catch(error => {
+      const res = { success: false, error: error }
+      return res;
+    })
+    res.json(response);
+
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 module.exports = {
     test,
     list,
     getOne,
     update,
-    create
+    create,
+    deleteOne
 };

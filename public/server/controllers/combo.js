@@ -51,7 +51,6 @@ const create = async ( req, res) =>{
           arrcantidad.push(producto.cantidad)
         });
         const relacion = await data.addProducto(arrid)
-        //actualizar cantidades
         for(let i=0; i < relacion.length; i++) {
           arrcantidad[i]
             const response = await Combo_Producto.update({
@@ -96,11 +95,41 @@ const update = async ( req, res) =>{
       where: { id: id}
     })
     .then(async function(data){
-      if(productos && productos.length > 0){
-        console.log("hay productos")
-        const relacion = await data.addProducto(productos)
-        console.log(relacion)
+      //buscar modelo
+      const comboarr = await Combo.findAll({
+        where: { id: id}
+      })
+      const comboproductoarr = await Combo_Producto.findAll({
+          where: { ComboId: comboarr[0].id}
+      })
+      for(let i=0;i<productos.length;i++){
+        let encontrado = false;
+        for(let j =0; j<comboproductoarr.length;j++){
+          if(comboproductoarr[j].ProductoId==productos[i].id){
+            await Combo_Producto.update({
+              cantidad      : productos[i].cantidad,
+            },{
+              where: { id: comboproductoarr[j].id}
+            })
+            encontrado=true;
+            break;
+          }
+        }
+        if(!encontrado){
+          const productexist = await Producto.findAll({
+            where: { id: productos[i].id}
+          })
+          if(productexist.length>0){
+            Combo_Producto.create({
+              cantidad        : productos[i].cantidad,
+              ComboId         : comboarr[0].id,
+              ProductoId      : productos[i].id
+            })
+          }
+        }
+
       }
+
       const res = { success: true, data: data, message:"actualizado exitosamente" }
       return res;
     })
