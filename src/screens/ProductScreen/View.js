@@ -53,12 +53,15 @@ const ProductView = ({
   const [tab, setTab] = useState(true)
   const { path, setPath } = useLocation()
   const [open, setOpen] = useState(true)
+  const [update, setUpdate] = useState(false)
   const [ids, setIds] = useState([])
 
   const handleClick = () => {
     setOpen(false)
     setPath('/product')
     setValues({})
+    setUpdate(false)
+    setProduct([])
     setIds([])
   }
 
@@ -69,6 +72,14 @@ const ProductView = ({
       : allCombo.filter(x => x.id === id)
     if (res) {
       setValues(res[0])
+      if (!tab) {
+        const array = res[0].Productos.map(item => {
+          item['cantidad'] = item.Combo_Producto.cantidad
+          return item
+        })
+        setUpdate(true)
+        setProduct(array)
+      }
       setOpen(true)
       setPath('/product/create')
     }
@@ -179,12 +190,12 @@ const ProductView = ({
                   variant="h6"
                   component="div"
                 >
-                  {ids.length === 1
+                  {update
                     ? `Actualizar ${tab ? 'Producto' : 'Combo'}`
                     : `Crear ${tab ? 'Producto' : 'Combo'}`}
                 </Typography>
                 <Button disabled={isLoading} color="inherit" onClick={save}>
-                  {ids.length === 1 ? 'Actualizar' : 'Crear'}
+                  {update ? 'Actualizar' : 'Crear'}
                 </Button>
               </Toolbar>
             </MuiAppBar>
@@ -218,7 +229,7 @@ const ProductView = ({
                     id="codebar"
                     label="Codebar"
                     size="small"
-                    value={codebar}
+                    placeholder={codebar}
                     variant="outlined"
                     onKeyDown={e => {
                       if (e.keyCode === 13) {
@@ -337,44 +348,47 @@ const ProductView = ({
                         padding: 3
                       }}
                     >
-                      <Box sx={{ display: 'flex' }}>
-                        <TextField
-                          id="escaner"
-                          label="Escanear"
-                          size="small"
-                          variant="outlined"
-                          inputRef={scannerRef}
-                          onKeyDown={e => {
-                            if (e.keyCode === 13) {
-                              var code = e.target.value
-                              addProducList(code)
-                              scannerRef.current.value = ''
-                            }
-                          }}
-                          autoFocus
-                          onChange={async () => {
-                            audio.currentTime = 0
-                            await audio
-                              .play()
-                              .then(() => {
-                                console.log('audio played auto')
-                              })
-                              .catch(error => {
-                                console.log(error)
-                              })
-                          }}
-                          sx={{ width: '200px' }}
-                        />
+                      {!update && (
+                        <Box sx={{ display: 'flex' }}>
+                          <TextField
+                            id="escaner"
+                            label="Escanear"
+                            size="small"
+                            variant="outlined"
+                            inputRef={scannerRef}
+                            onKeyDown={e => {
+                              if (e.keyCode === 13) {
+                                var code = e.target.value
+                                addProducList(code)
+                                scannerRef.current.value = ''
+                              }
+                            }}
+                            autoFocus
+                            onChange={async () => {
+                              audio.currentTime = 0
+                              await audio
+                                .play()
+                                .then(() => {
+                                  console.log('audio played auto')
+                                })
+                                .catch(error => {
+                                  console.log(error)
+                                })
+                            }}
+                            sx={{ width: '200px' }}
+                          />
 
-                        <Button
-                          sx={{ marginLeft: 'auto' }}
-                          variant="contained"
-                          color="error"
-                          onClick={emptyList}
-                        >
-                          Borrar Todo
-                        </Button>
-                      </Box>
+                          <Button
+                            sx={{ marginLeft: 'auto' }}
+                            variant="contained"
+                            color="error"
+                            onClick={emptyList}
+                          >
+                            Borrar Todo
+                          </Button>
+                        </Box>
+                      )}
+
                       <Box sx={{ marginTop: 2 }} />
 
                       <Scrollbars
@@ -397,6 +411,7 @@ const ProductView = ({
                             title={item?.nombre}
                             price={item?.precio}
                             cantidad={item?.cantidad}
+                            update={update}
                             destroy={() => removeProducList(key)}
                             operationQuantity={operationQuantity}
                           />

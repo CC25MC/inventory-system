@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton, TextField } from '@mui/material'
 import { Delete, Add, Remove } from '@mui/icons-material'
 
-export const ListItem = ({ title, price, cantidad, operationQuantity, destroy, id }) => {
+export const ListItem = ({ title, price, cantidad, operationQuantity, destroy, id, update }) => {
   return (
     <Box
       sx={{
@@ -57,6 +57,7 @@ export const ListItem = ({ title, price, cantidad, operationQuantity, destroy, i
       <IconButton
         edge="start"
         color="inherit"
+        disabled={update}
         sx={{ marginLeft: 'auto' }}
         aria-label="close"
         onClick={destroy}

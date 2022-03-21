@@ -56,6 +56,7 @@ export const Actions = () => {
     opcion
       ? mutate(values)
       : mutateC({
+          id: values.id,
           nombre: nombre,
           sku: sku,
           codebar: codebar,
