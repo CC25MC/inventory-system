@@ -53,7 +53,17 @@ export const Actions = () => {
     })
   }
   const saveData = opcion => {
-    opcion ? mutate(values) : mutateC(values)
+    opcion
+      ? mutate(values)
+      : mutateC({
+          nombre: nombre,
+          sku: sku,
+          codebar: codebar,
+          descripcion: descripcion,
+          unidad: unidad,
+          precio: precio,
+          productos: product
+        })
   }
   const emptyList = () => {
     setProduct([])
@@ -61,6 +71,39 @@ export const Actions = () => {
       variant: 'success'
     })
   }
+  const addProducList = code => {
+    const resultado = allProduct.find(item => item.codebar === code)
+    if (resultado) {
+      const res = product.find(item => item.codebar === resultado.codebar)
+      var newData
+      if (res) {
+        newData = product.map(item => {
+          if (item.codebar === res.codebar) {
+            item['cantidad'] = item['cantidad'] + 1
+            return item
+          }
+          return item
+        })
+      } else {
+        newData = [
+          ...product,
+          {
+            nombre: resultado.nombre,
+            precio: resultado.precio,
+            id: resultado.id,
+            codebar: resultado.codebar,
+            cantidad: 1
+          }
+        ]
+      }
+      setProduct(newData)
+    } else {
+      enqueueSnackbar('Producto no registrado', {
+        variant: 'error'
+      })
+    }
+  }
+
   const operationQuantity = (index, props, operation) => {
     const newData = product.map((item, key) => {
       if (key === index) {
@@ -109,6 +152,7 @@ export const Actions = () => {
     destroy,
     destroyC,
     removeProducList,
+    addProducList,
     emptyList,
     operationQuantity
   }
