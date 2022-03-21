@@ -1,10 +1,71 @@
 const Combo = require('../models/combo');
 const Producto = require('../models/producto');
-const Combo_Producto = require('../models/Relaciones/combo_productos')
+const Combo_Producto = require('../models/Relaciones/combo_productos');
 
 const test = async (req,res) => {
 
-    const response = { success: true, data: "combo" }
+  if(req.body.sync){
+    await Combo.sync();
+    await Combo_Producto.sync()
+  }
+  if(req.body.drop){
+    await Combo.truncate();
+    await Combo_Producto.truncate();
+  }
+  if(req.body.seed){
+  await Combo.bulkCreate([
+    {
+      sku           : "FE34GT42",
+      nombre        : "caja de Limpia contacto",
+      codebar       : "",
+      descripcion   : "caja de Limpia contacto",
+      unidad        : "unidad",
+      precio        : "3000"
+    },
+    {
+      sku           : "DTF433FG2",
+      nombre        : "Limpia contacto + WD-40",
+      codebar       : "",
+      descripcion   : "Limpia contacto + WD-40",
+      unidad        : "caja",
+      precio        : "2500"
+    },
+    {
+      sku           : "QWR34RFD2",
+      nombre        : "caja de WD-40",
+      codebar       : "",
+      descripcion   : "caja de WD-40",
+      unidad        : "unidad",
+      precio        : "5000"
+    }
+  ])
+  const combos = await Combo.findAll()
+  const productos = await Producto.findAll()
+  await Combo_Producto.bulkCreate([
+    {
+      cantidad    : 12,
+	    ComboId     : combos[0].id,
+	    ProductoId  : productos[0].id
+    },
+    {
+      cantidad    : 1,
+	    ComboId     : combos[1].id,
+	    ProductoId  : productos[0].id
+    },
+    {
+      cantidad    : 1,
+	    ComboId     : combos[1].id,
+	    ProductoId  : productos[2].id
+    },
+    {
+      cantidad    : 12,
+	    ComboId     : combos[2].id,
+	    ProductoId  : productos[2].id
+    }
+  ])
+  }
+
+  const response = { success: true, data: "combo" }
 
   res.json(response);
 };

@@ -2,7 +2,42 @@ const Proveedor = require('../models/proveedor');
 
 const test = async (req,res) => {
 
-    const response = { success: true, data: "proveedor" }
+  if(req.body.sync){
+    await Proveedor.sync();
+  }
+  if(req.body.drop){
+    await Proveedor.truncate();
+  }
+  if(req.body.seed){
+    const response = await Proveedor.bulkCreate([
+    {
+      nombre      : "Stark",
+      direccion   : "avenida 1",
+      correo      : "Stark@Stark.com",
+      telefono    : "+5695555574",
+      rut         : "55.555.555-5",
+      notas       : "buena tecnologia"
+    },
+    {
+      nombre      : "umbrella",
+      direccion   : "avenida 2",
+      correo      : "umbrella@umbrella.com",
+      telefono    : "+56933333331",
+      rut         : "33.333.333-3",
+      notas       : "virus"
+    },
+    {
+      nombre      : "china",
+      direccion   : "avenida 3",
+      correo      : "china@china.com",
+      telefono    : "+5691000000",
+      rut         : "22.222.222-2",
+      notas       : "demora"
+    }
+  ])    
+  }
+
+  const response = { success: true, data: "proveedor" }
 
   res.json(response);
 };

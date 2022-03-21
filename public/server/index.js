@@ -10,11 +10,19 @@
 
     dbinit().then(console.log("db iniciada"));
    
-    var clienteRouter = require('./routes/cliente');
-    var proveedorRouter = require('./routes/proveedor');
-    var productoRouter = require('./routes/producto');
-    var comboRouter = require('./routes/combo');
-    var comboproductosRouter = require('./routes/relaciones/combo_producto');
+    const clienteRouter = require('./routes/cliente');
+    const proveedorRouter = require('./routes/proveedor');
+    const productoRouter = require('./routes/producto');
+    const comboRouter = require('./routes/combo');
+    const comboproductosRouter = require('./routes/relaciones/combo_producto');
+    const entradaRouter = require('./routes/entrada');
+    const salidaRouter = require('./routes/salida');
+    const dbRouter = require('./routes/db');
+
+    require('./models/Relaciones/entrada_producto');
+    require('./models/Relaciones/entrada_combo');
+    require('./models/Relaciones/salida_producto');
+    require('./models/Relaciones/salida_combo');
 
     const app = express();
     const publicPath = path.resolve(__dirname, '../dist');
@@ -49,8 +57,11 @@
     app.use('/api/producto', productoRouter);
     app.use('/api/combo', comboRouter);
     app.use('/api/comboproductos', comboproductosRouter);
+    app.use('/api/entradas', entradaRouter);
+    app.use('/api/salidas', salidaRouter);
+    app.use('/api/db', dbRouter);
     app.use('/', function(req, res){
-        res.json('hola')
+        res.json('Inventario')
     });
 
     app.use(cookieParser());
