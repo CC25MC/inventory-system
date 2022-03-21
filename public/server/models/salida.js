@@ -5,23 +5,17 @@ const Cliente = require('./cliente')
 const Product = require('./producto');
 const Combo = require('./combo');
 
-class Entrada extends Model {}
-Entrada.init({
+class Salida extends Model {}
+Salida.init({
     date:          {type: DataTypes.DATE, allowNull: true},
     status:        {type: DataTypes.STRING, allowNull: true},
     nota:          {type: DataTypes.STRING, allowNull: true}
 }, {
     sequelize,
-    modelName: "Entrada"
+    modelName: "Salida"
 });
 
-Entrada.hasOne(Cliente);
-Cliente.belongsTo(Entrada);
+Salida.belongsTo(Cliente);
+Cliente.hasMany(Salida);
 
-Entrada.hasMany(Product);
-Product.belongsTo(Entrada);
-
-Entrada.hasMany(Combo);
-Combo.belongsTo(Entrada);
-
-module.exports = Entrada; 
+module.exports = Salida; 

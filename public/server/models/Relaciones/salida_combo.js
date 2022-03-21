@@ -1,11 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const {sequelize} = require('../../database/index');
 
-const Producto = require('../producto');
+const Salida = require('../salida');
 const Combo = require('../combo');
 
-class Combo_Producto extends Model {}
-Combo_Producto.init({
+class Salida_Combo extends Model {}
+Salida_Combo.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -16,11 +16,11 @@ Combo_Producto.init({
     estatus:            {type: DataTypes.BOOLEAN, allowNull: true, defaultValue: true}
 }, {
     sequelize,
-    modelName: "Combo_Producto"
+    modelName: "Salida_Combo"
 });
 
-Combo.belongsToMany(Producto,{through:"Combo_Producto"});
-Producto.belongsToMany(Combo,{through:"Combo_Producto"});
 
+Salida.belongsToMany(Combo, { through: 'Salida_Combo' });
+Combo.belongsToMany(Salida, { through: 'Salida_Combo' });
 
-module.exports = Combo_Producto; 
+module.exports = Salida_Combo; 

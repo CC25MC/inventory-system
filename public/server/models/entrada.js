@@ -15,13 +15,8 @@ Entrada.init({
     modelName: "Entrada"
 });
 
-Entrada.hasOne(Proveedor);
-Proveedor.belongsTo(Entrada);
+Entrada.belongsTo(Proveedor);
+Proveedor.hasMany(Entrada);
 
-Entrada.hasMany(Product);
-Product.belongsTo(Entrada);
-
-Entrada.hasMany(Combo);
-Combo.belongsTo(Entrada);
 
 module.exports = Entrada; 

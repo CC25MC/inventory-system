@@ -2,7 +2,42 @@ const Clientes = require('../models/cliente');
 
 const test = async (req,res) => {
 
-    const response = { success: true, data: "clientes" }
+  if(req.body.sync){
+  await Clientes.sync();
+  }
+  if(req.body.drop){
+    await Clientes.truncate();
+  }
+  if(req.body.seed){
+    const response = await Clientes.bulkCreate([
+    {
+      nombre      : "ramon",
+      direccion   : "calle 1",
+      correo      : "ramon@ramon.com",
+      telefono    : "+56999988874",
+      rut         : "99.999.999-9",
+      notas       : "Sin Notas"
+    },
+    {
+      nombre      : "Jose",
+      direccion   : "calle 2",
+      correo      : "jose@jose.com",
+      telefono    : "+56955588741",
+      rut         : "88.888.888-8",
+      notas       : "nada que agregar"
+    },
+    {
+      nombre      : "maria",
+      direccion   : "calle 3",
+      correo      : "maria@maria.com",
+      telefono    : "+56911188800",
+      rut         : "11.111.111-1",
+      notas       : "no aplica"
+    }
+  ])    
+  }
+  
+  const response = { success: true, data: "clientes" }
 
   res.json(response);
 };

@@ -2,7 +2,42 @@ const Producto = require('../models/producto');
 
 const test = async (req,res) => {
 
-    const response = { success: true, data: "producto" }
+  if(req.body.sync){
+    await Producto.sync();
+  }
+  if(req.body.drop){
+    await Producto.truncate();
+  }
+  if(req.body.seed){
+    await Producto.bulkCreate([
+    {
+      sku           : "FE34GT4",
+      nombre        : "Limpia contacto",
+      codebar       : "4056807871295",
+      descripcion   : "limpia contactos wurth",
+      unidad        : "unidad",
+      precio        : "3000"
+    },
+    {
+      sku           : "DTF433FG",
+      nombre        : "Clips",
+      codebar       : "7806505040809",
+      descripcion   : "caja de Clips 100 unidades",
+      unidad        : "caja",
+      precio        : "2500"
+    },
+    {
+      sku           : "QWR34RFD",
+      nombre        : "WD-40",
+      codebar       : "079567520054",
+      descripcion   : "WD-40 wurth",
+      unidad        : "unidad",
+      precio        : "5000"
+    }
+  ])    
+  }
+
+  const response = { success: true, data: "producto" }
 
   res.json(response);
 };

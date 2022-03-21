@@ -1,7 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const {sequelize} = require('../database/index');
 
-const Product = require('./producto');
 
 class Combo extends Model {}
 Combo.init({
