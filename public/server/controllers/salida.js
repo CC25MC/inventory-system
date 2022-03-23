@@ -5,6 +5,7 @@ const Proveedor = require('../models/proveedor');
 const Cliente = require('../models/cliente');
 const Salida_Producto = require('../models/Relaciones/salida_producto');
 const Salida_Combo = require('../models/Relaciones/salida_combo');
+const Inventario = require('../models/inventario');
 
 
 const test = async (req,res) => {
@@ -60,9 +61,42 @@ const create = async ( req, res) =>{
       if(productos && productos.length > 0){
         let arrpid=[];
         let arrpcantidad=[];
-        productos.forEach(producto => {
+        productos.forEach(async producto => {
           arrpid.push(producto.id)
           arrpcantidad.push(producto.cantidad)
+
+          //modificar inventario
+          let productodata = await Producto.findOne({where:{id:producto.id}})
+          let cantidadInventario = await Inventario.findOne({where:{ProductoId:producto.id}})
+          cantidadInventario.stock -= producto.cantidad
+          const salidasstockstring = cantidadInventario.salidasStock;
+          const salidasvalorstring = cantidadInventario.salidasValor;
+          let salidasstock=[];
+          let salidasvalor=[];
+          if(salidasstockstring!=""){
+            salidasstock = salidasstockstring.split(",");
+            salidasvalor = salidasvalorstring.split(",");
+          }
+          if (salidasstock.length<10){
+            salidasstock.push(producto.cantidad);
+            salidasvalor.push(productodata.precio);
+          }else{
+            salidasstock.push(producto.cantidad);
+            salidasvalor.push(productodata.precio);
+            salidasstock.shift()
+            salidasvalor.shift()
+          }
+          const salidassstring = salidasstock.toString();
+          const salidasvstring = salidasvalor.toString()
+          await Inventario.update({
+            stock: cantidadInventario.stock,
+            salidasStock   : salidassstring,
+            salidasValor   : salidasvstring 
+          },{
+            where:{ProductoId:producto.id}
+          })
+          //termina inventario
+
         });
         const relacion = await data.addProducto(arrpid)
         for(let i=0; i < relacion.length; i++) {

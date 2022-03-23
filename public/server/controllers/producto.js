@@ -1,4 +1,5 @@
 const Producto = require('../models/producto');
+const Inventario = require('../models/inventario')
 
 const test = async (req,res) => {
 
@@ -34,7 +35,51 @@ const test = async (req,res) => {
       unidad        : "unidad",
       precio        : "5000"
     }
-  ])    
+  ])
+  await Producto.findAll({
+    where:{
+      sku: "FE34GT4"
+    }
+  }).then(async function (data){
+    console.log(data[0].id)
+    await Inventario.create({
+      ProductoId  : data[0].id,
+      stock       : 0,
+      entradasStock : "",
+      entradasValor : "",
+      salidasStock  : "",
+      salidasValor  : ""
+    }) 
+  })
+  await Producto.findAll({
+    where:{
+      sku: "DTF433FG"
+    }
+  }).then(async function (data){
+    await Inventario.create({
+      ProductoId  : data[0].id,
+      stock       : 0,
+      entradasStock : "",
+      entradasValor : "",
+      salidasStock  : "",
+      salidasValor  : ""
+    }) 
+  })
+  await Producto.findAll({
+    where:{
+      sku: "QWR34RFD"
+    }
+  }).then(async function (data){
+    await Inventario.create({
+      ProductoId  : data[0].id,
+      stock       : 0,
+      entradasStock : "",
+      entradasValor : "",
+      salidasStock  : "",
+      salidasValor  : ""
+    }) 
+  })
+  
   }
 
   const response = { success: true, data: "producto" }
@@ -69,7 +114,17 @@ const create = async ( req, res) =>{
         unidad      : req.body.unidad,
         precio      : req.body.precio,
     })
-    .then(function(data){
+    .then(async function(data){
+
+      await Inventario.create({
+        ProductoId    : data.id,
+        stock         : 0,
+        entradasStock : "",
+        entradasValor : "",
+        salidasStock  : "",
+        salidasValor  : ""
+      })
+
       const res = { success: true, data: data, message:"creado exitosamente" }
       return res;
     })

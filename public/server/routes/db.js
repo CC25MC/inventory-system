@@ -5,6 +5,7 @@ const Proveedor = require('../models/proveedor');
 const Producto = require('../models/producto');
 const Combo = require('../models/combo');
 const Combo_Producto = require('../models/Relaciones/combo_productos');
+const Inventario = require('../models/inventario')
 
 const router = Router();
 
@@ -153,6 +154,49 @@ router.get('/' , async (req,res) => {
 	    ProductoId  : productos[2].id
     }
       ])
+      await Producto.findAll({
+        where:{
+          sku: "FE34GT4"
+        }
+      }).then(async function (data){
+        console.log(data[0].id)
+        await Inventario.create({
+          ProductoId  : data[0].id,
+          stock       : 0,
+          entradasStock : "",
+          entradasValor : "",
+          salidasStock  : "",
+          salidasValor  : ""
+        }) 
+      })
+      await Producto.findAll({
+        where:{
+          sku: "DTF433FG"
+        }
+      }).then(async function (data){
+        await Inventario.create({
+          ProductoId  : data[0].id,
+          stock       : 0,
+          entradasStock : "",
+          entradasValor : "",
+          salidasStock  : "",
+          salidasValor  : ""
+        }) 
+      })
+      await Producto.findAll({
+        where:{
+          sku: "QWR34RFD"
+        }
+      }).then(async function (data){
+        await Inventario.create({
+          ProductoId  : data[0].id,
+          stock       : 0,
+          entradasStock : "",
+          entradasValor : "",
+          salidasStock  : "",
+          salidasValor  : ""
+        }) 
+      })
 
     }
 
