@@ -4,8 +4,13 @@ const Producto = require('../models/producto');
 const Proveedor = require('../models/proveedor');
 const Entrada_Producto = require('../models/Relaciones/entrada_producto');
 const Entrada_Combo = require('../models/Relaciones/entrada_combo');
+const Inventario = require('../models/inventario');
 
 const test = async (req,res) => {
+
+  if(req.body.sync){
+    await Entrada.sync({ force: true });
+  }
 
     const response = { success: true, data: "Entradas a inventario" }
 
@@ -58,9 +63,42 @@ const create = async ( req, res) =>{
       if(productos && productos.length > 0){
         let arrpid=[];
         let arrpcantidad=[];
-        productos.forEach(producto => {
+        productos.forEach( async producto => {
           arrpid.push(producto.id)
           arrpcantidad.push(producto.cantidad)
+
+          //modificar inventario
+          let productodata = await Producto.findOne({where:{id:producto.id}})
+          let cantidadInventario = await Inventario.findOne({where:{ProductoId:producto.id}})
+          cantidadInventario.stock += producto.cantidad
+          const entradasstockstring = cantidadInventario.entradasStock;
+          const entradasvalorstring = cantidadInventario.entradasValor;
+          let entradasstock=[];
+          let entradasvalor=[];
+          if(entradasstockstring!=""){
+            entradasstock = entradasstockstring.split(",");
+            entradasvalor = entradasvalorstring.split(",");
+          }
+          if (entradasstock.length<10){
+            entradasstock.push(producto.cantidad);
+            entradasvalor.push(productodata.precio);
+          }else{
+            entradasstock.push(producto.cantidad);
+            entradasvalor.push(productodata.precio);
+            entradasstock.shift()
+            entradasvalor.shift()
+          }
+          const entradassstring = entradasstock.toString();
+          const entradasvstring = entradasvalor.toString()
+          await Inventario.update({
+            stock: cantidadInventario.stock,
+            entradasStock   : entradassstring,
+            entradasValor   : entradasvstring 
+          },{
+            where:{ProductoId:producto.id}
+          })
+          //termina inventario
+
         });
         const relacion = await data.addProducto(arrpid)
         for(let i=0; i < relacion.length; i++) {

@@ -5,11 +5,11 @@ const Product = require('./producto');
 
 class Inventario extends Model {}
 Inventario.init({
-    stock:                  {type: DataTypes.NUMBER, allowNull: true},
+    stock:                  {type: DataTypes.REAL, allowNull: true},
     entradasStock:          {type: DataTypes.STRING, allowNull: true},
     entradasValor:          {type: DataTypes.STRING, allowNull: true},
     salidasStock:           {type: DataTypes.STRING, allowNull: true},
-    entradasValor:          {type: DataTypes.STRING, allowNull: true},
+    salidasValor:           {type: DataTypes.STRING, allowNull: true},
     status:                 {type: DataTypes.BOOLEAN, allowNull: true},
 }, {
     sequelize,
