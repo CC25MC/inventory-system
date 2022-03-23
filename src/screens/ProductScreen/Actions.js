@@ -8,7 +8,6 @@ import {
   destroyCombo
 } from '../../Hooks'
 import { useSnackbar } from 'notistack'
-import { SignalCellularConnectedNoInternet0BarTwoTone } from '@mui/icons-material'
 
 const data = {
   nombre: '',

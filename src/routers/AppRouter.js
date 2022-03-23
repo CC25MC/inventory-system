@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useLocation } from '../Hooks'
 const ClientScreen = lazy(() => import('../screens/ClientScreen'))
 const InventoryScreen = lazy(() => import('../screens/InventoryScreen'))
+const EntryScreen = lazy(() => import('../screens/InventoryScreen/Entry'))
+const ExitScreen = lazy(() => import('../screens/InventoryScreen/Exit'))
 const ProductScreen = lazy(() => import('../screens/ProductScreen'))
 const SupplierScreen = lazy(() => import('../screens/SupplierScreen'))
 
@@ -12,6 +14,8 @@ export const AppRouter = () => {
     <Router>
       <Routes location={path}>
         <Route path="/" element={<InventoryScreen />} />
+        <Route path="/inventory/entry" element={<EntryScreen />} />
+        <Route path="/inventory/exit" element={<ExitScreen />} />
         <Route path="/client" element={<ClientScreen />} />
         <Route path="/client/create" element={<ClientScreen />} />
         <Route path="/product" element={<ProductScreen />} />

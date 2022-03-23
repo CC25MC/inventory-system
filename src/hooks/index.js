@@ -3,3 +3,4 @@ export * from "./useClient";
 export * from "./useSupplier";
 export * from "./useProduct";
 export * from "./useCombo";
+export * from "./useInventory";
