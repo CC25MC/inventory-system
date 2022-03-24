@@ -5,6 +5,7 @@ import * as Combo from "./Combo";
 import * as Product from "./Product";
 import * as Entry from "./Entry";
 import * as Exit from "./Exit";
+import * as Inventory from "./Inventory";
 
 
-export { Client, Supplier, Product, Combo, Entry, Exit };
+export { Client, Supplier, Product, Combo, Entry, Exit, Inventory };

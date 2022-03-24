@@ -1,10 +1,32 @@
 import { Add } from '@mui/icons-material'
-import { Box, Typography, Button, Divider } from '@mui/material'
+import { useState, useEffect } from 'react'
+import { Box, Typography, Button, Divider, styled } from '@mui/material'
 import { useLocation } from '../../Hooks'
 import { titles } from '../../variables'
+import { read, utils } from 'xlsx'
 
+const Input = styled('input')({
+  display: 'none'
+})
 export const AppBar = ({ action }) => {
   const { path, setPath } = useLocation()
+  const [excel, setExcel] = useState(null)
+  const handleChange = async (e) => {
+    const file = e.target.files[0]
+    const data = await file.arrayBuffer()
+    /* data is an ArrayBuffer */
+    setExcel(data)
+  }
+  useEffect(() => {
+    if (excel) {
+      const workbook = read(excel)
+      const workbookSheets = workbook.SheetNames
+      const sheet = workbookSheets[0]
+      const dataExcel = utils.sheet_to_json(workbook.Sheets[sheet])
+      console.log(dataExcel)
+      // setExcel(null)
+    }
+  }, [excel])
   return (
     <>
       <Box
@@ -48,13 +70,21 @@ export const AppBar = ({ action }) => {
           </>
         ) : (
           <>
-            <Button
-              sx={{ marginLeft: 'auto' }}
-              color="primary"
-              variant="outlined"
+            <label
+              htmlFor="contained-button-file"
+              style={{ marginLeft: 'auto' }}
             >
-              Importar Excel
-            </Button>
+              <Input
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={handleChange}
+              />
+              <Button variant="outlined" component="span">
+                Importar Excel
+              </Button>
+            </label>
             <Button
               sx={{ marginLeft: 3 }}
               onClick={() => {

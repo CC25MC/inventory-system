@@ -75,6 +75,7 @@ const SupplierView = ({
     { field: 'correo', headerName: 'Correo', width: 150 },
     { field: 'bank', headerName: 'Banco', width: 150 },
     { field: 'notas', headerName: 'Notas', width: 150 },
+    { field: 'createdAt', headerName: 'Fecha', width: 150 },
     {
       field: 'actions',
       type: 'actions',

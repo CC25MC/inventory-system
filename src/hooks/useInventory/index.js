@@ -3,6 +3,18 @@ import request from '../../api'
 import { useSnackbar } from 'notistack'
 import { useLocation } from '../useLocation'
 
+
+export const getInventory = () => {
+  const { isLoading, data, error } = useQuery('/api/inventario', () =>
+    request.inventory.get()
+  )
+  return {
+    isLoading,
+    data: data?.data || [],
+    error
+  }
+}
+
 export const mutateEntry = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { setPath } = useLocation()
@@ -15,7 +27,7 @@ export const mutateEntry = () => {
           enqueueSnackbar(`Entrada ${data?.message}`, {
             variant: 'success'
           })
-          setPath('/supplier')
+          setPath('/')
         }
       }
     }

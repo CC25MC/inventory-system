@@ -79,10 +79,10 @@ const create = async ( req, res) =>{
           }
           if (salidasstock.length<10){
             salidasstock.push(producto.cantidad);
-            salidasvalor.push(productodata.precio);
+            salidasvalor.push(productodata.precio * producto.cantidad);
           }else{
             salidasstock.push(producto.cantidad);
-            salidasvalor.push(productodata.precio);
+            salidasvalor.push(productodata.precio * producto.cantidad);
             salidasstock.shift()
             salidasvalor.shift()
           }

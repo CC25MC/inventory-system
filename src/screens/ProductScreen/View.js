@@ -97,6 +97,7 @@ const ProductView = ({
     { field: 'descripcion', headerName: 'Descripción', width: 150 },
     { field: 'unidad', headerName: 'Unidades', width: 150 },
     { field: 'precio', headerName: 'Precio', width: 150 },
+    { field: 'createdAt', headerName: 'Fecha', width: 150 },
     {
       field: 'actions',
       type: 'actions',
@@ -138,7 +139,7 @@ const ProductView = ({
       {path === '/product' ? (
         <>
           <AppBar action={setOpen} />
-          <Box sx={{ paddingLeft: 3, paddingRight: 3, paddingTop: 3 }}>
+          {/* <Box sx={{ paddingLeft: 3, paddingRight: 3, paddingTop: 3 }}>
             <ButtonGroup
               fullWidth
               variant="contained"
@@ -157,7 +158,7 @@ const ProductView = ({
                 Combos
               </Button>
             </ButtonGroup>
-          </Box>
+          </Box> */}
           <Box sx={{ height: '700px', width: '100%', padding: 3 }}>
             <DataGrid
               rows={tab ? allProduct : allCombo}
