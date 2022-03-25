@@ -37,6 +37,28 @@ export const mutateSupplier = () => {
     mutate
   }
 }
+export const importSupplier = () => {
+  const { enqueueSnackbar } = useSnackbar()
+  // const { setPath } = useLocation()
+  const { mutate, isLoading, error } = useMutation(
+    payload => request.supplier.excel(payload),
+    {
+      onSuccess: data => {
+        if (data?.data) {
+          enqueueSnackbar(`Proveedor ${data?.message}`, {
+            variant: 'success'
+          })
+          // setPath('/client')
+        }
+      }
+    }
+  )
+  return {
+    isLoading,
+    error,
+    mutate
+  }
+}
 
 export const destroySupplier = () => {
   const { enqueueSnackbar } = useSnackbar()

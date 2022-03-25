@@ -3,6 +3,7 @@ import {
   Box,
   Divider,
   Button,
+  ButtonGroup,
   Dialog,
   Typography,
   AppBar as MuiAppBar,
@@ -33,12 +34,17 @@ const InventoryView = ({
   graficChange,
   entry,
   exit,
-  graficasentry,
-  graficasexit,
+  solapada,
+  graficasStock,
+  graficasValor,
+  graficasexitStock,
+  graficasexitValor,
+  grafsolapada1,
+  grafsolapada2,
   entryChange
 }) => {
   const [open, setOpen] = useState(false)
-  console.log(allInventory)
+  const [tab, setTab] = useState(1)
   const primaryAxis = React.useMemo(
     () => ({
       getValue: datum => datum.date,
@@ -121,7 +127,7 @@ const InventoryView = ({
       valueGetter: ({ row }) => row.SalidasValor
     },
     { field: 'status', headerName: 'Status', width: 150 },
-    { field: 'createdAt', headerName: 'Fecha', width: 150 }
+    { field: 'createdAt', headerName: 'Fecha', width: 250 }
   ]
   const columnsentry = [
     {
@@ -139,7 +145,7 @@ const InventoryView = ({
       headerName: 'Entradas Valor',
       width: 150
     },
-    { field: 'fecha', headerName: 'Fecha', width: 150 }
+    { field: 'fecha', headerName: 'Fecha', width: 250 }
   ]
   const columnsexit = [
     {
@@ -157,12 +163,43 @@ const InventoryView = ({
       headerName: 'Salidas Valor',
       width: 150
     },
-    { field: 'fecha', headerName: 'Fecha', width: 150 }
+    { field: 'fecha', headerName: 'Fecha', width: 250 }
+  ]
+
+  const columnsSolapada = [
+    {
+      field: 'nombre',
+      headerName: 'Producto',
+      width: 150
+    },
+    {
+      field: 'entradasStock',
+      headerName: 'Entradas Stock',
+      width: 150
+    },
+    {
+      field: 'salidasStock',
+      headerName: 'Salidas Stock',
+      width: 150
+    },
+    {
+      field: 'entradasValor',
+      headerName: 'Entradas Valor',
+      width: 150
+    },
+
+    {
+      field: 'salidasValor',
+      headerName: 'Salidas Valor',
+      width: 150
+    },
+    { field: 'fecha', headerName: 'Fecha', width: 250 }
   ]
   const datos = { rows: allInventory, columns }
   const datosentry = { rows: entry, columns: columnsentry }
   const datosexit = { rows: exit, columns: columnsexit }
-  console.log(graficasentry)
+  const datosSolapados = { rows: solapada, columns: columnsSolapada }
+  // console.log(graficasentry)
   return (
     <Box
       sx={{
@@ -218,51 +255,153 @@ const InventoryView = ({
               flexDirection: 'column'
             }}
           >
-            <Typography variant="h6" component="div">
-              Entrada / Salida :
-            </Typography>
-            <Box sx={{ marginTop: 2 }} />
+            <ButtonGroup
+              fullWidth
+              variant="contained"
+              aria-label="outlined primary button group"
+            >
+              <Button
+                variant={tab === 1 ? 'contained' : 'outlined'}
+                onClick={() => setTab(1)}
+              >
+                Entrada
+              </Button>
+              <Button
+                variant={tab === 2 ? 'contained' : 'outlined'}
+                onClick={() => setTab(2)}
+              >
+                Salida
+              </Button>
+              <Button
+                variant={tab === 3 ? 'contained' : 'outlined'}
+                onClick={() => setTab(3)}
+              >
+                Solapada
+              </Button>
+            </ButtonGroup>
+            {tab === 1 && (
+              <Box>
+                <Box sx={{ marginTop: 2 }} />
 
-            <Box>
-              <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
-                <DataGrid
-                  {...datosentry}
-                  loading={isLoading}
-                  components={{ Toolbar: GridToolbar }}
-                />
-                <DataGrid
-                  {...datosexit}
-                  loading={isLoading}
-                  components={{ Toolbar: GridToolbar }}
-                />
-              </Stack>
-            </Box>
-            <Box sx={{ marginTop: 2 }} />
-            <Typography variant="h6" component="div">
-              Graficas Entrada / Salida :
-            </Typography>
-            <Box sx={{ marginTop: 2 }} />
+                <Box>
+                  <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                    <DataGrid
+                      {...datosentry}
+                      loading={isLoading}
+                      components={{ Toolbar: GridToolbar }}
+                    />
+                  </Stack>
+                </Box>
+                <Box sx={{ marginTop: 2 }} />
+                <Typography variant="h6" component="div">
+                  Graficas:
+                </Typography>
+                <Box sx={{ marginTop: 2 }} />
 
-            <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
-              <ResizableBox width={600} height={300} style={{}}>
-                <Chart
-                  options={{
-                    data: graficasentry,
-                    primaryAxis,
-                    secondaryAxes
-                  }}
-                />
-              </ResizableBox>
-              <ResizableBox width={600} height={300} style={{}}>
-                <Chart
-                  options={{
-                    data: graficasexit,
-                    primaryAxis,
-                    secondaryAxes
-                  }}
-                />
-              </ResizableBox>
-            </Stack>
+                <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: graficasStock,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: graficasValor,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                </Stack>
+              </Box>
+            )}
+            {tab === 2 && (
+              <Box>
+                <Box sx={{ marginTop: 2 }} />
+
+                <Box>
+                  <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                    <DataGrid
+                      {...datosexit}
+                      loading={isLoading}
+                      components={{ Toolbar: GridToolbar }}
+                    />
+                  </Stack>
+                </Box>
+                <Box sx={{ marginTop: 2 }} />
+                <Typography variant="h6" component="div">
+                  Graficas:
+                </Typography>
+                <Box sx={{ marginTop: 2 }} />
+
+                <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: graficasexitStock,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: graficasexitValor,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                </Stack>
+              </Box>
+            )}
+            {tab === 3 && (
+              <Box>
+                <Box sx={{ marginTop: 2 }} />
+
+                <Box>
+                  <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                    <DataGrid
+                      {...datosSolapados}
+                      loading={isLoading}
+                      components={{ Toolbar: GridToolbar }}
+                    />
+                  </Stack>
+                </Box>
+                <Box sx={{ marginTop: 2 }} />
+                <Typography variant="h6" component="div">
+                  Graficas:
+                </Typography>
+                <Box sx={{ marginTop: 2 }} />
+
+                <Stack direction="row" sx={{ height: '300px' }} spacing={2}>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: grafsolapada1,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                  <ResizableBox width={600} height={300} style={{}}>
+                    <Chart
+                      options={{
+                        data: grafsolapada2,
+                        primaryAxis,
+                        secondaryAxes
+                      }}
+                    />
+                  </ResizableBox>
+                </Stack>
+              </Box>
+            )}
           </Box>
         </Box>
       </Dialog>

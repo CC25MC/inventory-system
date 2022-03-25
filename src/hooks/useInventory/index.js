@@ -14,7 +14,26 @@ export const getInventory = () => {
     error
   }
 }
-
+export const getEntry = () => {
+  const { isLoading, data, error } = useQuery('/api/entrada', () =>
+    request.entry.get()
+  )
+  return {
+    isLoading,
+    data: data?.data || [],
+    error
+  }
+}
+export const getExit = () => {
+  const { isLoading, data, error } = useQuery('/api/salida', () =>
+    request.exit.get()
+  )
+  return {
+    isLoading,
+    data: data?.data || [],
+    error
+  }
+}
 export const mutateEntry = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { setPath } = useLocation()

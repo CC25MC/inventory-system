@@ -37,7 +37,28 @@ export const mutateClients = () => {
     mutate
   }
 }
-
+export const importClients = () => {
+  const { enqueueSnackbar } = useSnackbar()
+  // const { setPath } = useLocation()
+  const { mutate, isLoading, error } = useMutation(
+    payload => request.client.excel(payload),
+    {
+      onSuccess: data => {
+        if (data?.data) {
+          enqueueSnackbar(`Clientes ${data?.message}`, {
+            variant: 'success'
+          })
+          // setPath('/client')
+        }
+      }
+    }
+  )
+  return {
+    isLoading,
+    error,
+    mutate
+  }
+}
 export const destroyClients = () => {
   const { enqueueSnackbar } = useSnackbar()
   const {

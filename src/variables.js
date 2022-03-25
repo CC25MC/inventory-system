@@ -11,5 +11,7 @@ export const titles = {
   '/': 'Inventario',
   '/client': 'Clientes',
   '/product': 'Productos',
-  '/supplier': 'Proveedor'
+  '/supplier': 'Proveedor',
+  '/inventory/history/entry': 'Historial de Entrada',
+  '/inventory/history/exit': 'Historial de salida'
 }

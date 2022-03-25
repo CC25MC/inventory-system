@@ -38,7 +38,8 @@ const SupplierView = ({
   handleChange,
   setValues,
   saveData,
-  destroy
+  destroy,
+  importExcel
 }) => {
   const { path, setPath } = useLocation()
   const [open, setOpen] = useState(true)
@@ -114,7 +115,7 @@ const SupplierView = ({
     >
       {path === '/supplier' ? (
         <>
-          <AppBar action={setOpen} />
+          <AppBar action={setOpen} saveData={importExcel} />
           <Box sx={{ height: '700px', width: '100%', padding: 3 }}>
             <DataGrid
               {...datos}

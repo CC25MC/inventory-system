@@ -38,6 +38,29 @@ export const mutateProduct = () => {
   }
 }
 
+export const importProduct = () => {
+  const { enqueueSnackbar } = useSnackbar()
+  // const { setPath } = useLocation()
+  const { mutate, isLoading, error } = useMutation(
+    payload => request.product.excel(payload),
+    {
+      onSuccess: data => {
+        if (data?.data) {
+          enqueueSnackbar(`Productos ${data?.message}`, {
+            variant: 'success'
+          })
+          // setPath('/client')
+        }
+      }
+    }
+  )
+  return {
+    isLoading,
+    error,
+    mutate
+  }
+}
+
 export const destroyProduct = () => {
   const { enqueueSnackbar } = useSnackbar()
   const {

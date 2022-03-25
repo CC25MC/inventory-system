@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { format } from 'rut.js'
-import { getClients, mutateClients, destroyClients } from '../../Hooks'
+import { getClients, mutateClients, destroyClients, importClients } from '../../Hooks'
 import { useSnackbar } from 'notistack'
 
 const data = {
@@ -16,6 +16,7 @@ export const Actions = () => {
   const [values, setValues] = useState(data)
   const { data: allClients, isLoading: getLoading } = getClients()
   const { mutate, isLoading: posLoading, error } = mutateClients()
+  const { mutate: importExcel, isLoading: excelLoading } = importClients()
   const { destroy, isLoading: destroyIsLoading } = destroyClients()
 
   useEffect(() => {
@@ -46,11 +47,12 @@ export const Actions = () => {
     direccion,
     notas,
     allClients,
-    isLoading: getLoading || posLoading || destroyIsLoading,
+    isLoading: getLoading || posLoading || destroyIsLoading || excelLoading,
     error,
     handleChange,
     setValues,
     saveData,
-    destroy
+    destroy,
+    importExcel
   }
 }

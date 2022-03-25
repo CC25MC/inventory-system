@@ -46,7 +46,8 @@ const ProductView = ({
   removeProducList,
   emptyList,
   operationQuantity,
-  addProducList
+  addProducList,
+  importExcel
 }) => {
   const audio = new Audio(scanner)
   const scannerRef = useRef()
@@ -138,7 +139,7 @@ const ProductView = ({
     >
       {path === '/product' ? (
         <>
-          <AppBar action={setOpen} />
+          <AppBar action={setOpen} saveData={importExcel} />
           {/* <Box sx={{ paddingLeft: 3, paddingRight: 3, paddingTop: 3 }}>
             <ButtonGroup
               fullWidth

@@ -5,7 +5,8 @@ import {
   destroyProduct,
   getCombo,
   mutateCombo,
-  destroyCombo
+  destroyCombo,
+  importProduct
 } from '../../Hooks'
 import { useSnackbar } from 'notistack'
 
@@ -25,6 +26,7 @@ export const Actions = () => {
   const { dataC: allCombo, isLoading: getLoadingCombo } = getCombo()
   const { mutate, isLoading: posLoading, error } = mutateProduct()
   const { mutateC, isLoading: posLoadingCombo, errorC } = mutateCombo()
+  const { mutate: importExcel, isLoading: Loading } = importProduct()
   const { destroy, isLoading: destroyIsLoading } = destroyProduct()
   const { destroyC, isLoading: destroyIsLoadingCombo } = destroyCombo()
   useEffect(() => {
@@ -143,7 +145,8 @@ export const Actions = () => {
       destroyIsLoading ||
       getLoadingCombo ||
       posLoadingCombo ||
-      destroyIsLoadingCombo,
+      destroyIsLoadingCombo ||
+      Loading,
     error,
     handleChange,
     setValues,
@@ -154,6 +157,7 @@ export const Actions = () => {
     removeProducList,
     addProducList,
     emptyList,
-    operationQuantity
+    operationQuantity, 
+    importExcel
   }
 }
