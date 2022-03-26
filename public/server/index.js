@@ -18,6 +18,7 @@
     const entradaRouter = require('./routes/entrada');
     const salidaRouter = require('./routes/salida');
     const inventarioRouter = require('./routes/inventario');
+    const licenciaRouter = require('./routes/licencia');
     const dbRouter = require('./routes/db');
 
     require('./models/Relaciones/entrada_producto');
@@ -61,6 +62,7 @@
     app.use('/api/entradas', entradaRouter);
     app.use('/api/salidas', salidaRouter);
     app.use('/api/inventario', inventarioRouter);
+    app.use('/api/licencia', licenciaRouter);
     app.use('/api/db', dbRouter);
     app.use('/', function(req, res){
         res.json('Inventario')

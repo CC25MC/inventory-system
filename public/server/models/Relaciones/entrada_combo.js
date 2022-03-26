@@ -13,6 +13,10 @@ Entrada_Combo.init({
         allowNull: false
     },
     cantidad:           {type: DataTypes.NUMBER, allowNull: true},
+    valornetounitario:  {type: DataTypes.REAL, allowNull: true},
+    valortotalunitario: {type: DataTypes.REAL, allowNull: true},
+    valornetocantidad:  {type: DataTypes.REAL, allowNull: true},
+    valortotalcantidad: {type: DataTypes.REAL, allowNull: true},
     estatus:            {type: DataTypes.BOOLEAN, allowNull: true, defaultValue: true}
 }, {
     sequelize,
