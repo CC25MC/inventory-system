@@ -24,7 +24,7 @@ const drawerWidth = 240
 
 const openedMixin = theme => ({
   width: drawerWidth,
-  backgroundColor: '#131B4F',
+  backgroundColor: '#034B95',
   color: 'white',
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -34,7 +34,7 @@ const openedMixin = theme => ({
 })
 
 const closedMixin = theme => ({
-  backgroundColor: '#131B4F',
+  backgroundColor: '#034B95',
   color: 'white',
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -135,10 +135,10 @@ export const Sidebar = ({ children }) => {
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
                 marginTop: 2,
-                backgroundColor: path === item.link && '#727694',
+                backgroundColor: path === item.link && '#E69B24',
                 borderRadius: path === item.link && '10px',
                 ':hover': {
-                  backgroundColor: '#727694',
+                  backgroundColor: '#E69B24',
                   borderRadius: '10px'
                 }
               }}
@@ -166,14 +166,18 @@ export const Sidebar = ({ children }) => {
           }}
         >
           <ListItemButton
+            onClick={() => {
+              setPath('/setting')
+            }}
             sx={{
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
               px: 2.5,
-              backgroundColor: path === 'settign' && '#727694',
-              borderRadius: path === 'settign' && '10px',
+              marginTop: 2,
+              backgroundColor: path === '/setting' && '#E69B24',
+              borderRadius: path === '/setting' && '10px',
               ':hover': {
-                backgroundColor: '#727694',
+                backgroundColor: '#E69B24',
                 borderRadius: '10px'
               }
             }}
@@ -192,7 +196,10 @@ export const Sidebar = ({ children }) => {
           </ListItemButton>
         </List>
       </Drawer>
-      <Box component="main" sx={{ p: 3, width:"100%", height:"100%", backgroundColor: '#EDEFF3' }}>
+      <Box
+        component="main"
+        sx={{ p: 3, width: '100%', height: path === '/setting' ? '100vh' : "100%", backgroundColor: '#EDEFF3' }}
+      >
         {children}
       </Box>
     </Box>
