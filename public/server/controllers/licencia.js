@@ -49,7 +49,7 @@ const create = async (req, res) => {
 
     const licencias = await Licencia.findAll()
 
-    if(licencias==[]){
+    if(licencias.length==0){
       const response = await Licencia.create({
         licenseKey: req.body.licenseKey
       })
