@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { format } from 'rut.js'
-import { getClients } from '../../Hooks'
+import { getLicense, mutateLicense } from '../../Hooks'
 import { useSnackbar } from 'notistack'
 
 const data = {
@@ -9,14 +9,21 @@ const data = {
 export const Actions = () => {
   const { enqueueSnackbar } = useSnackbar()
   const [values, setValues] = useState(data)
-  const { data: allLicencia, isLoading: getLoading, error } = getClients()
+  const { data: allLicencia, isLoading: getLoading } = getLicense()
+  const { mutate, isLoading: Loading, error } = mutateLicense()
+
+  // useEffect(() => {
+  //   if (allLicencia) {
+  //     setValues()
+  //   }
+  // }, [allLicencia])
 
   useEffect(() => {
-     if (error) {
-       enqueueSnackbar('Error creando o editando la licencia', {
-         variant: 'error'
-       })
-     }
+    if (error) {
+      enqueueSnackbar('Error creando o editando la licencia', {
+        variant: 'error'
+      })
+    }
   }, [error])
 
   const { licencia } = values || {}
@@ -28,12 +35,13 @@ export const Actions = () => {
     })
   }
   const saveData = () => {
-    console.log(values)
+    mutate({ id: values?.id, licenseKey: licencia })
   }
+  console.log(allLicencia)
   return {
     allLicencia,
     licencia,
-    isLoading: getLoading,
+    isLoading: getLoading || Loading,
     // error,
     handleChange,
     saveData
