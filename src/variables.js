@@ -13,5 +13,7 @@ export const titles = {
   '/product': 'Productos',
   '/supplier': 'Proveedor',
   '/inventory/history/entry': 'Historial de Entrada',
-  '/inventory/history/exit': 'Historial de salida'
+  '/inventory/history/exit': 'Historial de salida',
+  '/setting': 'Ajustes',
+  
 }

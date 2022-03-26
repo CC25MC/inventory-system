@@ -98,7 +98,8 @@ export const AppBar = ({ action, saveData }) => {
             </Button>
           </>
         ) : path === '/inventory/history/entry' ||
-          path === '/inventory/history/exit' ? null : (
+          path === '/inventory/history/exit' ||
+          path === '/setting' ? null : (
           <>
             <label
               htmlFor="contained-button-file"

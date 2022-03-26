@@ -4,6 +4,7 @@ const path = require('path')
 const isDev = require('electron-is-dev')
 const WindowStateManager = require('electron-window-state-manager')
 require('@electron/remote/main').initialize()
+const iconPath = path.join(__dirname, 'images/favicon-16x16.png')
 
 let template = []
 if (process.platform === 'darwin') {
@@ -48,6 +49,7 @@ function createWindow() {
     height: mainWindowState.height,
     x: mainWindowState.x,
     y: mainWindowState.y,
+    icon: iconPath,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: false,
@@ -55,6 +57,8 @@ function createWindow() {
       // preload: path.join(__dirname, "preload.js"),
     }
   })
+  
+  // win.setMenu(null)
 
   win.loadURL(
     isDev

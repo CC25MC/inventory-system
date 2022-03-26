@@ -30,14 +30,14 @@ const Loading = () => {
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#131B4F',
-      main: '#131B4F',
+      light: '#075BA4',
+      main: '#075BA4',
       dark: '#002884',
       contrastText: '#fff'
     },
     secondary: {
-      light: '#ff7961',
-      main: '#f44336',
+      light: '#E69B24',
+      main: '#E69B24',
       dark: '#ba000d',
       contrastText: '#000'
     }
