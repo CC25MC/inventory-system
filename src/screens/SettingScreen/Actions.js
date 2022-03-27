@@ -4,7 +4,7 @@ import { getLicense, mutateLicense } from '../../Hooks'
 import { useSnackbar } from 'notistack'
 
 const data = {
-  licencia: ''
+  licenseKey: ''
 }
 export const Actions = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -12,11 +12,11 @@ export const Actions = () => {
   const { data: allLicencia, isLoading: getLoading } = getLicense()
   const { mutate, isLoading: Loading, error } = mutateLicense()
 
-  // useEffect(() => {
-  //   if (allLicencia) {
-  //     setValues()
-  //   }
-  // }, [allLicencia])
+  useEffect(() => {
+    if (allLicencia) {
+      setValues(allLicencia[0])
+    }
+  }, [allLicencia])
 
   useEffect(() => {
     if (error) {
@@ -26,7 +26,7 @@ export const Actions = () => {
     }
   }, [error])
 
-  const { licencia } = values || {}
+  const { licenseKey } = values || {}
 
   const handleChange = prop => event => {
     setValues({
@@ -35,12 +35,12 @@ export const Actions = () => {
     })
   }
   const saveData = () => {
-    mutate({ id: values?.id, licenseKey: licencia })
+    mutate(values)
   }
   console.log(allLicencia)
   return {
-    allLicencia,
-    licencia,
+    isLicense: allLicencia[0]?.id ? true : false,
+    licenseKey,
     isLoading: getLoading || Loading,
     // error,
     handleChange,

@@ -15,6 +15,7 @@ const Notify = () => {
       setNotification(true);
       setMessage(text);
     } else if (text === "Actualización Descargada") {
+      setNotification(true);
       setMessage(text);
     }
   });

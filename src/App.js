@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack'
 import { QueryClientProvider, QueryClient } from 'react-query'
 const Notify = lazy(() => import('./notify'))
 import { Sidebar } from './components'
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 
 const queryClient = new QueryClient()
 
@@ -23,6 +23,26 @@ const Loading = () => {
       }}
     >
       <CircularProgress />
+    </Box>
+  )
+}
+
+const Watermark = () => {
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: '30px',
+        right: '30px'
+      }}
+    >
+      <Typography
+        sx={{
+          color: '#EDEFF3',
+        }}
+      >
+        DUOLOON
+      </Typography>
     </Box>
   )
 }
@@ -61,6 +81,7 @@ const App = () => {
             <Sidebar>
               <AppRouter />
               <Notify />
+              <Watermark />
             </Sidebar>
           </SnackbarProvider>
         </Suspense>

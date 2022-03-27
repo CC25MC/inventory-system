@@ -14,7 +14,7 @@
 /dist
 .sqlite3
 .sqlite
-/public/server/database/data/database.sqlite
+public/server/database/data/database.sqlite
 
 # misc
 .DS_Store
